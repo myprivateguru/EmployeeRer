@@ -31,9 +31,9 @@ public class AdminSignupFormCommand {
     @Size(min = 5, max = 100)
     private String agencyName;
 
-    @NotBlank
+    
     @Size(max = 100)
-    private String agencyDetails;
+    private String ref;
 
     @NotBlank
     @Size(min = 5, max = 13)

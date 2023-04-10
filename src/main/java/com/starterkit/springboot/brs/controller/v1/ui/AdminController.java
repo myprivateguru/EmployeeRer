@@ -85,7 +85,7 @@ public class AdminController {
         UserDto admin = userService.signup(userDto); //register the admin
         AgencyDto agencyDto = new AgencyDto()
                 .setName(adminSignupRequest.getAgencyName())
-                .setDetails(adminSignupRequest.getAgencyDetails())
+                .setRef(adminSignupRequest.getRef())
                 .setOwner(admin);
         busReservationService.addAgency(agencyDto); //add the agency for this admin
         return admin;

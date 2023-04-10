@@ -33,7 +33,7 @@ public class Agency {
 
     private String name;
 
-    private String details;
+    private String ref;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_user_id")

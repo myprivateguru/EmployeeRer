@@ -52,7 +52,7 @@ public class DashboardController {
         AgencyDto agencyDto = busReservationService.getAgency(userDto);
         AgencyFormCommand agencyFormCommand = new AgencyFormCommand()
                 .setAgencyName(agencyDto.getName())
-                .setAgencyDetails(agencyDto.getDetails());
+                .setRef(agencyDto.getRef());
         modelAndView.addObject("agencyFormData", agencyFormCommand);
         modelAndView.addObject("agency", agencyDto);
         modelAndView.addObject("userName", userDto.getFullName());
@@ -67,7 +67,7 @@ public class DashboardController {
         AgencyDto agencyDto = busReservationService.getAgency(userDto);
         AgencyFormCommand agencyFormCommand = new AgencyFormCommand()
                 .setAgencyName(agencyDto.getName())
-                .setAgencyDetails(agencyDto.getDetails());
+                .setRef(agencyDto.getRef());
         modelAndView.addObject("agencyFormData", agencyFormCommand);
         modelAndView.addObject("agency", agencyDto);
         modelAndView.addObject("userName", userDto.getFullName());
@@ -82,7 +82,7 @@ public class DashboardController {
         AgencyDto agencyDto = busReservationService.getAgency(userDto);
         AgencyFormCommand agencyFormCommand = new AgencyFormCommand()
                 .setAgencyName(agencyDto.getName())
-                .setAgencyDetails(agencyDto.getDetails());
+                .setRef(agencyDto.getRef());
         modelAndView.addObject("agencyFormData", agencyFormCommand);
         modelAndView.addObject("agency", agencyDto);
         modelAndView.addObject("userName", userDto.getFullName());
@@ -99,7 +99,7 @@ public class DashboardController {
         if (!bindingResult.hasErrors()) {
             if (agencyDto != null) {
                 agencyDto.setName(agencyFormCommand.getAgencyName())
-                        .setDetails(agencyFormCommand.getAgencyDetails());
+                        .setRef(agencyFormCommand.getRef());
                 busReservationService.updateAgency(agencyDto, null);
             }
         }
@@ -137,6 +137,7 @@ public class DashboardController {
                 BusDto busDto = new BusDto()
                         .setCode(busFormCommand.getCode())
                         .setCapacity(busFormCommand.getCapacity())
+                        .setJobTitle(busFormCommand.getJobTitle())
                         .setMake(busFormCommand.getMake());
                 AgencyDto updatedAgencyDto = busReservationService.updateAgency(agencyDto, busDto);
                 modelAndView.addObject("agency", updatedAgencyDto);

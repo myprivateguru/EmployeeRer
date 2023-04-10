@@ -18,7 +18,6 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/api/v1/user")
-@Api(value = "brs-application", description = "Operations pertaining to user management in the BRS application")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -47,6 +46,7 @@ public class UserController {
                 .setFirstName(userSignupRequest.getFirstName())
                 .setLastName(userSignupRequest.getLastName())
                 .setMobileNumber(userSignupRequest.getMobileNumber())
+                .setRef(userSignupRequest.getRef())
                 .setAdmin(isAdmin);
 
         return userService.signup(userDto);

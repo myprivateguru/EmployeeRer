@@ -115,7 +115,7 @@ public class BusReservationServiceImpl implements BusReservationService {
             if (!agency.isPresent()) {
                 Agency agencyModel = new Agency()
                         .setName(agencyDto.getName())
-                        .setDetails(agencyDto.getDetails())
+                        .setRef(agencyDto.getRef())
                         .setCode(RandomStringUtil.getAlphaNumericString(8, agencyDto.getName()))
                         .setOwner(admin);
                 agencyRepository.save(agencyModel);
@@ -144,6 +144,7 @@ public class BusReservationServiceImpl implements BusReservationService {
                             .setAgency(agency)
                             .setCode(busDto.getCode())
                             .setCapacity(busDto.getCapacity())
+                            .setJobTitle(busDto.getJobTitle())
                             .setMake(busDto.getMake());
                     busRepository.save(busModel);
                     if (agency.getBuses() == null) {
@@ -156,7 +157,7 @@ public class BusReservationServiceImpl implements BusReservationService {
             } else {
                 //update agency details case
                 agency.setName(agencyDto.getName())
-                        .setDetails(agencyDto.getDetails());
+                        .setRef(agencyDto.getRef());
                 return modelMapper.map(agencyRepository.save(agency), AgencyDto.class);
             }
         }

@@ -18,5 +18,5 @@ public class AgencyFormCommand {
 
     @NotBlank
     @Size(max = 100)
-    private String agencyDetails;
+    private String ref;
 }

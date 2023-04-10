@@ -114,7 +114,7 @@ public class BusReservationSystemApplication {
                 agencyA = new Agency()
                         .setName("Green Mile Agency")
                         .setCode("AGENCY-A")
-                        .setDetails("Reaching desitnations with ease")
+                        .setRef("Reaching desitnations with ease")
                         .setOwner(admin);
                 agencyRepository.save(agencyA);
             }

@@ -30,5 +30,5 @@ public class AgencyDto {
 
     private String name;
 
-    private String details;
+    private String ref;
 }

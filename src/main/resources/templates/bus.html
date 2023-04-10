@@ -87,7 +87,7 @@
                         <div class="form-group">
                             <label for="jobTitle" class="col-md-12">JobTitle</label>
                             <div class="col-md-12">
-                                <input type="text" th:field="*{make}" class="form-control form-control-line" name="jobTitle" id="jobTitle">
+                                <input type="text" th:field="*{jobTitle}" class="form-control form-control-line" name="jobTitle" id="jobTitle">
                             </div>
                             <small class="text-danger-padded" th:if="${#fields.hasErrors('jobTitle')}" th:errors="*{jobTitle}"></small>
                         </div>

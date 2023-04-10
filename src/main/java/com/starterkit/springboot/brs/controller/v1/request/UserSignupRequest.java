@@ -30,4 +30,6 @@ public class UserSignupRequest {
     private String lastName;
 
     private String mobileNumber;
+    
+    private String ref;
 }
