@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/layout">
+
+<head>
+</head>
+
+<body>
+
+<!-- ============================================================== -->
+<!-- Container fluid  -->
+<!-- ============================================================== -->
+<div class="container-fluid" layout:fragment="content">
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <div class="row page-titles">
+        <div class="col-md-5 col-8 align-self-center">
+            <h3 class="text-themecolor m-b-0 m-t-0">Jobs</h3>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="home">Home</a></li>
+                <li class="breadcrumb-item active">Openings</li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+		<div class="col-lg-8 col-md-7">
+			<div class="card">
+			<div class="card-block">
+				<h2> Current openings </h2>
+				<h4>Following are openings as per your preference. </h4>
+			</div>
+		</div>
+		</div>
+		
+	
+</div>
+ <div class="row">
+        <!-- column -->
+        <div class="col-lg-8 col-md-7">
+            <div class="card">
+                <div class="card-block">
+                    <h4 class="card-title">Buses</h4>
+                    <h6 class="card-subtitle">Agency owned buses</h6>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Bus Code</th>
+                                <th>Capacity</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="bus,iterationStatus : ${agency.buses}">
+                                <tr>
+                                    <td th:text=${iterationStatus.count}></td>
+                                    <td th:text=${bus.code}></td>
+                                    <td th:text=${bus.capacity}></td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+ </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- End Container fluid  -->
+<!-- ============================================================== -->
+</body>
+
+</html>

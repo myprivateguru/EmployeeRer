@@ -34,6 +34,8 @@ public class Bus {
     private int capacity;
 
     private String make;
+    
+    private String jobTitle;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "agency_id")

@@ -25,5 +25,7 @@ public class BusDto {
     private int capacity;
 
     private String make;
+    
+    private String jobTitle;
 
 }

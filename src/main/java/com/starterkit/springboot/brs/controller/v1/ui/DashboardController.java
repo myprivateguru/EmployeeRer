@@ -59,6 +59,35 @@ public class DashboardController {
         return modelAndView;
     }
 
+    @GetMapping(value = "/jobs")
+    public ModelAndView jobDetails() {
+        ModelAndView modelAndView = new ModelAndView("jobs");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto userDto = userService.findUserByEmail(auth.getName());
+        AgencyDto agencyDto = busReservationService.getAgency(userDto);
+        AgencyFormCommand agencyFormCommand = new AgencyFormCommand()
+                .setAgencyName(agencyDto.getName())
+                .setAgencyDetails(agencyDto.getDetails());
+        modelAndView.addObject("agencyFormData", agencyFormCommand);
+        modelAndView.addObject("agency", agencyDto);
+        modelAndView.addObject("userName", userDto.getFullName());
+        return modelAndView;
+    }
+    
+    @GetMapping(value = "/share")
+    public ModelAndView shareDetails() {
+        ModelAndView modelAndView = new ModelAndView("share");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto userDto = userService.findUserByEmail(auth.getName());
+        AgencyDto agencyDto = busReservationService.getAgency(userDto);
+        AgencyFormCommand agencyFormCommand = new AgencyFormCommand()
+                .setAgencyName(agencyDto.getName())
+                .setAgencyDetails(agencyDto.getDetails());
+        modelAndView.addObject("agencyFormData", agencyFormCommand);
+        modelAndView.addObject("agency", agencyDto);
+        modelAndView.addObject("userName", userDto.getFullName());
+        return modelAndView;
+    }
     @PostMapping(value = "/agency")
     public ModelAndView updateAgency(@Valid @ModelAttribute("agencyFormData") AgencyFormCommand agencyFormCommand, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("agency");
@@ -86,6 +115,12 @@ public class DashboardController {
         modelAndView.addObject("agency", agencyDto);
         modelAndView.addObject("busFormData", new BusFormCommand());
         modelAndView.addObject("userName", userDto.getFullName());
+        return modelAndView;
+    }
+    @GetMapping(value = "/hello")
+    public ModelAndView helloView() {
+        ModelAndView modelAndView = new ModelAndView("hello");
+        
         return modelAndView;
     }
 

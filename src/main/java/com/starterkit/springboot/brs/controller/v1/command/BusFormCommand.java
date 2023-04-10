@@ -22,4 +22,7 @@ public class BusFormCommand {
 
     @NotBlank
     private String make;
+    
+    @NotBlank
+    private String jobTitle;
 }

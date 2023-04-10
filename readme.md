@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a><img src="https://github.com/khandelwal-arpit/springboot-starterkit-mysql/blob/master/docs/images/spring-framework.png" alt="spring boot"></a>
+  <a><img src="\src\main\resources\static\favicon.png"></a>
   <br>
  BRAINQY
   <br>
