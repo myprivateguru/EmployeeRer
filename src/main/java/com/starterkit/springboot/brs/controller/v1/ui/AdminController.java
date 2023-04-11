@@ -4,17 +4,21 @@ package com.starterkit.springboot.brs.controller.v1.ui;
 import com.starterkit.springboot.brs.controller.v1.command.AdminSignupFormCommand;
 import com.starterkit.springboot.brs.dto.model.bus.AgencyDto;
 import com.starterkit.springboot.brs.dto.model.user.UserDto;
+import com.starterkit.springboot.brs.model.user.User;
+import com.starterkit.springboot.brs.repository.user.UserRepository;
 import com.starterkit.springboot.brs.service.JobsReservationService;
 import com.starterkit.springboot.brs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -23,11 +27,15 @@ import javax.validation.Valid;
 
 @Controller
 public class AdminController {
+	private static final int COINS_PER_REFERRAL = 10;
 
     @Autowired
-    JobsReservationService busReservationService;
+    JobsReservationService jobsReservationService;
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping(value = {"/", "/login"})
     public ModelAndView login() {
@@ -46,19 +54,23 @@ public class AdminController {
     }
 
     @GetMapping(value = "/signup")
-    public ModelAndView signup() {
+    public ModelAndView signup(HttpServletRequest request, Model model) {
         ModelAndView modelAndView = new ModelAndView("signup");
         modelAndView.addObject("adminSignupFormData", new AdminSignupFormCommand());
+        //String ref = request.getParameter("ref"); // retrieve the value of the 'ref' parameter
+	    // add the 'ref' value to the model
+	    //model.addAttribute("ref", ref);
         return modelAndView;
     }
 
     @PostMapping(value = "/signup")
-    public ModelAndView createNewAdmin(@Valid @ModelAttribute("adminSignupFormData") AdminSignupFormCommand adminSignupFormCommand, BindingResult bindingResult) {
+    public ModelAndView createNewAdmin(@Valid @ModelAttribute("adminSignupFormData") AdminSignupFormCommand adminSignupFormCommand, BindingResult bindingResult,HttpServletRequest request, Model model) {
         ModelAndView modelAndView = new ModelAndView("signup");
         if (bindingResult.hasErrors()) {
             return modelAndView;
         } else {
             try {
+            	//String ref = request.getParameter("ref");
                 UserDto newUser = registerAdmin(adminSignupFormCommand);
             } catch (Exception exception) {
                 bindingResult.rejectValue("email", "error.adminSignupFormCommand", exception.getMessage());
@@ -81,13 +93,22 @@ public class AdminController {
                 .setFirstName(adminSignupRequest.getFirstName())
                 .setLastName(adminSignupRequest.getLastName())
                 .setMobileNumber(adminSignupRequest.getMobileNumber())
+                .setRef(adminSignupRequest.getRef())
                 .setAdmin(true);
+        
+            User referrer = userRepository.findByEmail(userDto.getRef());
+            if (referrer != null) {
+                referrer.setCoins(referrer.getCoins() + COINS_PER_REFERRAL);
+                userRepository.save(referrer);
+                userDto.setCoins(COINS_PER_REFERRAL);
+            }
+        
         UserDto admin = userService.signup(userDto); //register the admin
         AgencyDto agencyDto = new AgencyDto()
                 .setName(adminSignupRequest.getAgencyName())
                 .setRef(adminSignupRequest.getRef())
                 .setOwner(admin);
-        busReservationService.addAgency(agencyDto); //add the agency for this admin
+        jobsReservationService.addAgency(agencyDto); //add the agency for this admin
         return admin;
     }
 }

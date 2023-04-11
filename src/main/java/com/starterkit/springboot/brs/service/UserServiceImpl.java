@@ -60,6 +60,7 @@ public class UserServiceImpl implements UserService {
                     .setRoles(new HashSet<>(Arrays.asList(userRole)))
                     .setFirstName(userDto.getFirstName())
                     .setLastName(userDto.getLastName())
+                    .setCoins(userDto.getCoins())
                     .setMobileNumber(userDto.getMobileNumber());
             return UserMapper.toUserDto(userRepository.save(user));
         }

@@ -57,7 +57,7 @@
 
                         <div class="form-group">
                             <label for="ref"><i class="zmdi zmdi-assignment"></i></label>
-                            <input type="text" th:field="*{ref}" name="ref" id="ref" placeholder="Reference"/>
+                            <input type="text" th:field="*{ref}" name="ref" id="ref" placeholder="Reference" th:readonly="${param.ref != null}" th:value="${param.ref} ?: ''"/>
                             <small class="text-danger" th:if="${#fields.hasErrors('ref')}" th:errors="*{ref}"></small>
                         </div>
 
@@ -84,7 +84,15 @@
         </div>
     </section>
 </div>
+<script>
+  // Get the value of the 'ref' parameter from the URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const ref = urlParams.get('ref');
 
+  // Set the value of the 'ref' field in the form
+  const refField = document.getElementById('ref');
+  refField.value = ref;
+</script>
 <!-- JS -->
 <script src="/auth/vendor/jquery/jquery.min.js"></script>
 </body>

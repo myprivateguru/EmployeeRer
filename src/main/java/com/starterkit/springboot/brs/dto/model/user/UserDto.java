@@ -28,6 +28,7 @@ public class UserDto {
     private String lastName;
     private String mobileNumber;
     private String ref;
+    private Integer coins=0;
     private boolean isAdmin;
     private Collection<RoleDto> roles;
 
