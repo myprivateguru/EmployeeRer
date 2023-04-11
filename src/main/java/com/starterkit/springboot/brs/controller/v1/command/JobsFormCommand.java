@@ -8,11 +8,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 /**
- * Created by Arpit Khandelwal.
+ * Created by Dnyaneshwar Somwanshi.
  */
 @Data
 @Accessors(chain = true)
-public class BusFormCommand {
+public class JobsFormCommand {
     @NotBlank
     @Size(min = 4, max = 8)
     private String code;

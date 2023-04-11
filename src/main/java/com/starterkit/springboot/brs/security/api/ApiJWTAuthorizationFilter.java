@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import static com.starterkit.springboot.brs.security.SecurityConstants.*;
 
 /**
- * Created by Arpit Khandelwal.
+ * Created by Dnyaneshwar Somwanshi.
  */
 public class ApiJWTAuthorizationFilter extends BasicAuthenticationFilter {
     public ApiJWTAuthorizationFilter(AuthenticationManager authManager) {

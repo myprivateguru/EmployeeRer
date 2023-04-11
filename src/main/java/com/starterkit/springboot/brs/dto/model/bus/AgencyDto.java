@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 import java.util.Set;
 
 /**
- * Created by Arpit Khandelwal.
+ * Created by Dnyaneshwar Somwanshi.
  */
 @Getter
 @Setter
@@ -26,7 +26,7 @@ public class AgencyDto {
 
     private UserDto owner;
 
-    private Set<BusDto> buses;
+    private Set<JobsDto> jobss;
 
     private String name;
 

@@ -22,7 +22,7 @@ import java.util.List;
 import static com.starterkit.springboot.brs.security.SecurityConstants.*;
 
 /**
- * Created by Arpit Khandelwal.
+ * Created by Dnyaneshwar Somwanshi.
  */
 public class FormBasedJWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;

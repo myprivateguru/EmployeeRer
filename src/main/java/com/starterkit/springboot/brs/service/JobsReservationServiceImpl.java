@@ -25,15 +25,15 @@ import static com.starterkit.springboot.brs.exception.EntityType.*;
 import static com.starterkit.springboot.brs.exception.ExceptionType.*;
 
 /**
- * Created by Arpit Khandelwal.
+ * Created by Dnyaneshwar Somwanshi.
  */
 @Component
-public class BusReservationServiceImpl implements BusReservationService {
+public class JobsReservationServiceImpl implements JobsReservationService {
     @Autowired
     private AgencyRepository agencyRepository;
 
     @Autowired
-    private BusRepository busRepository;
+    private JobsRepository jobsRepository;
 
 
 
@@ -98,30 +98,30 @@ public class BusReservationServiceImpl implements BusReservationService {
      * Updates the agency with given Bus information
      *
      * @param agencyDto
-     * @param busDto
+     * @param jobsDto
      * @return
      */
     @Transactional
-    public AgencyDto updateAgency(AgencyDto agencyDto, BusDto busDto) {
+    public AgencyDto updateAgency(AgencyDto agencyDto, JobsDto jobsDto) {
         Agency agency = getAgency(agencyDto.getCode());
         if (agency != null) {
-            if (busDto != null) {
-                Optional<Bus> bus = Optional.ofNullable(busRepository.findByCodeAndAgency(busDto.getCode(), agency));
+            if (jobsDto != null) {
+                Optional<Jobs> bus = Optional.ofNullable(jobsRepository.findByCodeAndAgency(jobsDto.getCode(), agency));
                 if (!bus.isPresent()) {
-                    Bus busModel = new Bus()
+                    Jobs busModel = new Jobs()
                             .setAgency(agency)
-                            .setCode(busDto.getCode())
-                            .setExperience(busDto.getExperience())
-                            .setJobTitle(busDto.getJobTitle())
-                            .setDescription(busDto.getDescription());
-                    busRepository.save(busModel);
-                    if (agency.getBuses() == null) {
-                        agency.setBuses(new HashSet<>());
+                            .setCode(jobsDto.getCode())
+                            .setExperience(jobsDto.getExperience())
+                            .setJobTitle(jobsDto.getJobTitle())
+                            .setDescription(jobsDto.getDescription());
+                    jobsRepository.save(busModel);
+                    if (agency.getJobss() == null) {
+                        agency.setJobss(new HashSet<>());
                     }
-                    agency.getBuses().add(busModel);
+                    agency.getJobss().add(busModel);
                     return modelMapper.map(agencyRepository.save(agency), AgencyDto.class);
                 }
-                throw exceptionWithId(BUS, DUPLICATE_ENTITY, 2, busDto.getCode(), agencyDto.getCode());
+                throw exceptionWithId(BUS, DUPLICATE_ENTITY, 2, jobsDto.getCode(), agencyDto.getCode());
             } else {
                 //update agency details case
                 agency.setName(agencyDto.getName())
@@ -132,20 +132,7 @@ public class BusReservationServiceImpl implements BusReservationService {
         throw exceptionWithId(AGENCY, ENTITY_NOT_FOUND, 2, agencyDto.getOwner().getEmail());
     }
 
-    /**
-     * Returns trip details basd on trip_id
-     *
-     * @param tripID
-     * @return
-     */
-  
 
-    /**
-     * Creates two new Trips with the given information in tripDto object
-     *
-     * @param tripDto
-     * @return
-     */
 
 
     /**
@@ -166,8 +153,8 @@ public class BusReservationServiceImpl implements BusReservationService {
      * @param busCode
      * @return
      */
-    private Bus getBus(String busCode) {
-        return busRepository.findByCode(busCode);
+    private Jobs getBus(String busCode) {
+        return jobsRepository.findByCode(busCode);
     }
 
     /**
@@ -204,6 +191,9 @@ public class BusReservationServiceImpl implements BusReservationService {
         return BRSException.throwExceptionWithId(entityType, exceptionType, id, args);
     }
 
+
+
+	
 	
 
 }

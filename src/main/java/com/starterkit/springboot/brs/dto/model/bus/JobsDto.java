@@ -9,7 +9,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
- * Created by Arpit Khandelwal.
+ * Created by Dnyaneshwar Somwanshi.
  */
 @Getter
 @Setter
@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @ToString
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BusDto {
+public class JobsDto {
 
     private String code;
 

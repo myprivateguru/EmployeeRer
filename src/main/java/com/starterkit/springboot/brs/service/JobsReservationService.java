@@ -2,15 +2,15 @@ package com.starterkit.springboot.brs.service;
 
 import com.starterkit.springboot.brs.dto.model.bus.*;
 import com.starterkit.springboot.brs.dto.model.user.UserDto;
-import com.starterkit.springboot.brs.model.bus.Bus;
+
 
 import java.util.List;
 import java.util.Set;
 
 /**
- * Created by Arpit Khandelwal.
+ * Created by Dnyaneshwar Somwanshi.
  */
-public interface BusReservationService {
+public interface JobsReservationService {
 
 
 
@@ -19,7 +19,7 @@ public interface BusReservationService {
 
     AgencyDto addAgency(AgencyDto agencyDto);
 
-    AgencyDto updateAgency(AgencyDto agencyDto, BusDto busDto);
+    AgencyDto updateAgency(AgencyDto agencyDto, JobsDto jobsDto);
 
   
 

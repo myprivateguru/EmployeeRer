@@ -1,7 +1,7 @@
 package com.starterkit.springboot.brs.util;
 
 /**
- * Created by Arpit Khandelwal.
+ * Created by Dnyaneshwar Somwanshi.
  */
 public class RandomStringUtil {
     // function to generate a random string of length n

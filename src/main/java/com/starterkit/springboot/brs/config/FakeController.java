@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
  * swagger documentation allowing users to get the authorisation token from the same interface
  * and use it for executing the secured API operations.
  * <p>
- * Created by Arpit Khandelwal.
+ * Created by Dnyaneshwar Somwanshi.
  */
 @RestController
 @RequestMapping("/api")

@@ -27,7 +27,7 @@ public class BusReservationSystemApplication {
     @Bean
     CommandLineRunner init(RoleRepository roleRepository, UserRepository userRepository,
                            AgencyRepository agencyRepository,
-                           BusRepository busRepository) {
+                           JobsRepository busRepository) {
         return args -> {
             //Create Admin and Passenger Roles
             Role adminRole = roleRepository.findByRole(UserRoles.ADMIN);
@@ -84,23 +84,6 @@ public class BusReservationSystemApplication {
                 agencyRepository.save(agencyA);
             }
 
-            //Create a bus
-            Bus busA = busRepository.findByCode("AGENCY-A-1");
-            if (busA == null) {
-                busA = new Bus()
-                        .setCode("AGENCY-A-1")
-                        .setAgency(agencyA)
-                        .setExperience(60);
-                busRepository.save(busA);
-            }
-
-            //Add busA to set of buses owned by Agency 'AGENCYA'
-            if (agencyA.getBuses() == null) {
-                Set<Bus> buses = new HashSet<>();
-                agencyA.setBuses(buses);
-                agencyA.getBuses().add(busA);
-                agencyRepository.save(agencyA);
-            }
 
             
 

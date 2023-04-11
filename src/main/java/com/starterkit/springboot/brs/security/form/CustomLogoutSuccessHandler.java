@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by Arpit Khandelwal.
+ * Created by Dnyaneshwar Somwanshi.
  */
 public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler
         implements LogoutSuccessHandler {

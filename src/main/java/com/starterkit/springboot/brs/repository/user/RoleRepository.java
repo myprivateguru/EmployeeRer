@@ -5,7 +5,7 @@ import com.starterkit.springboot.brs.model.user.UserRoles;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- * Created by Arpit Khandelwal.
+ * Created by Dnyaneshwar Somwanshi.
  */
 public interface RoleRepository extends CrudRepository<Role, Long> {
 

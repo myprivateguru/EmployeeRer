@@ -10,7 +10,7 @@ import java.util.Optional;
 /**
  * A helper class to generate RuntimeExceptions with a little AI inbuilt.
  * <p>
- * Created by Arpit Khandelwal.
+ * Created by Dnyaneshwar Somwanshi.
  */
 @Component
 public class BRSException {

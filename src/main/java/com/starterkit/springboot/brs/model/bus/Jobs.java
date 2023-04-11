@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 
 /**
- * Created by Arpit Khandelwal.
+ * Created by Dnyaneshwar Somwanshi.
  */
 @Getter
 @Setter
@@ -23,7 +23,7 @@ import javax.persistence.*;
                 unique = true
         )
 )
-public class Bus {
+public class Jobs {
     @Id
     @Column(name = "bus_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

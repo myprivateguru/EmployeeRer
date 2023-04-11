@@ -5,7 +5,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * Created by Arpit Khandelwal.
+ * Created by Dnyaneshwar Somwanshi.
  */
 @Configuration
 public class PageConfig implements WebMvcConfigurer {
@@ -21,7 +21,7 @@ public class PageConfig implements WebMvcConfigurer {
         registry.addViewController("/agency").setViewName("agency");
         registry.addViewController("/bus").setViewName("bus");
         registry.addViewController("/share").setViewName("share");
-        registry.addViewController("/trip").setViewName("trip");
+        registry.addViewController("/addJob").setViewName("addJob");
         registry.addViewController("/logout").setViewName("logout");
     }
 

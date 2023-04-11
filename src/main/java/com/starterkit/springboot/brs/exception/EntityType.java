@@ -1,7 +1,7 @@
 package com.starterkit.springboot.brs.exception;
 
 /**
- * Created by Arpit Khandelwal.
+ * Created by Dnyaneshwar Somwanshi.
  */
 public enum EntityType {
     USER,

@@ -19,7 +19,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by Arpit Khandelwal.
+ * Created by Dnyaneshwar Somwanshi.
  */
 @EnableWebSecurity
 public class MultiHttpSecurityConfig {

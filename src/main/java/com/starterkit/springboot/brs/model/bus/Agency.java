@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 /**
- * Created by Arpit Khandelwal.
+ * Created by Dnyaneshwar Somwanshi.
  */
 @Getter
 @Setter
@@ -40,5 +40,5 @@ public class Agency {
     private User owner;
 
     @OneToMany(mappedBy = "agency", cascade = CascadeType.ALL)
-    private Set<Bus> buses;
+    private Set<Jobs> jobss;
 }

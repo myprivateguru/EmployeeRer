@@ -4,7 +4,7 @@ package com.starterkit.springboot.brs.controller.v1.ui;
 import com.starterkit.springboot.brs.controller.v1.command.AdminSignupFormCommand;
 import com.starterkit.springboot.brs.dto.model.bus.AgencyDto;
 import com.starterkit.springboot.brs.dto.model.user.UserDto;
-import com.starterkit.springboot.brs.service.BusReservationService;
+import com.starterkit.springboot.brs.service.JobsReservationService;
 import com.starterkit.springboot.brs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,14 +18,14 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 /**
- * Created by Arpit Khandelwal.
+ * Created by Dnyaneshwar Somwanshi.
  */
 
 @Controller
 public class AdminController {
 
     @Autowired
-    BusReservationService busReservationService;
+    JobsReservationService busReservationService;
     @Autowired
     private UserService userService;
 
