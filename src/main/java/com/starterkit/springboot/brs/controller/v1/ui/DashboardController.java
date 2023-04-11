@@ -3,9 +3,8 @@ package com.starterkit.springboot.brs.controller.v1.ui;
 import com.starterkit.springboot.brs.controller.v1.command.*;
 import com.starterkit.springboot.brs.dto.model.bus.AgencyDto;
 import com.starterkit.springboot.brs.dto.model.bus.BusDto;
-import com.starterkit.springboot.brs.dto.model.bus.StopDto;
-import com.starterkit.springboot.brs.dto.model.bus.TripDto;
 import com.starterkit.springboot.brs.dto.model.user.UserDto;
+import com.starterkit.springboot.brs.model.bus.Bus;
 import com.starterkit.springboot.brs.service.BusReservationService;
 import com.starterkit.springboot.brs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created by Arpit Khandelwal.
@@ -132,13 +132,16 @@ public class DashboardController {
         AgencyDto agencyDto = busReservationService.getAgency(userDto);
         modelAndView.addObject("userName", userDto.getFullName());
         modelAndView.addObject("agency", agencyDto);
+        String randomCode = UUID.randomUUID().toString().replaceAll("-", "");
+        String cod= randomCode.substring(0, 6);
         if (!bindingResult.hasErrors()) {
             try {
                 BusDto busDto = new BusDto()
                         .setCode(busFormCommand.getCode())
-                        .setCapacity(busFormCommand.getCapacity())
+                        .setExperience(busFormCommand.getExperience())
                         .setJobTitle(busFormCommand.getJobTitle())
-                        .setMake(busFormCommand.getMake());
+                        .setDescription(busFormCommand.getDescription());
+                
                 AgencyDto updatedAgencyDto = busReservationService.updateAgency(agencyDto, busDto);
                 modelAndView.addObject("agency", updatedAgencyDto);
                 modelAndView.addObject("busFormData", new BusFormCommand());
@@ -149,57 +152,8 @@ public class DashboardController {
         return modelAndView;
     }
 
-    @GetMapping(value = "/trip")
-    public ModelAndView tripDetails() {
-        ModelAndView modelAndView = new ModelAndView("trip");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDto userDto = userService.findUserByEmail(auth.getName());
-        AgencyDto agencyDto = busReservationService.getAgency(userDto);
-        Set<StopDto> stops = busReservationService.getAllStops();
-        List<TripDto> trips = busReservationService.getAgencyTrips(agencyDto.getCode());
-        modelAndView.addObject("agency", agencyDto);
-        modelAndView.addObject("stops", stops);
-        modelAndView.addObject("trips", trips);
-        modelAndView.addObject("tripFormData", new TripFormCommand());
-        modelAndView.addObject("userName", userDto.getFullName());
-        return modelAndView;
-    }
-
-    @PostMapping(value = "/trip")
-    public ModelAndView addNewTrip(@Valid @ModelAttribute("tripFormData") TripFormCommand tripFormCommand, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView("trip");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDto userDto = userService.findUserByEmail(auth.getName());
-        AgencyDto agencyDto = busReservationService.getAgency(userDto);
-        Set<StopDto> stops = busReservationService.getAllStops();
-        List<TripDto> trips = busReservationService.getAgencyTrips(agencyDto.getCode());
-
-        modelAndView.addObject("stops", stops);
-        modelAndView.addObject("agency", agencyDto);
-        modelAndView.addObject("userName", userDto.getFullName());
-        modelAndView.addObject("trips", trips);
-
-        if (!bindingResult.hasErrors()) {
-            try {
-                TripDto tripDto = new TripDto()
-                        .setSourceStopCode(tripFormCommand.getSourceStop())
-                        .setDestinationStopCode(tripFormCommand.getDestinationStop())
-                        .setBusCode(tripFormCommand.getBusCode())
-                        .setJourneyTime(tripFormCommand.getTripDuration())
-                        .setFare(tripFormCommand.getTripFare())
-                        .setAgencyCode(agencyDto.getCode());
-                busReservationService.addTrip(tripDto);
-
-                trips = busReservationService.getAgencyTrips(agencyDto.getCode());
-                modelAndView.addObject("trips", trips);
-                modelAndView.addObject("tripFormData", new TripFormCommand());
-            } catch (Exception ex) {
-                bindingResult.rejectValue("sourceStop", "error.tripFormData", ex.getMessage());
-            }
-        }
-        return modelAndView;
-    }
-
+  
+   
     @GetMapping(value = "/profile")
     public ModelAndView getUserProfile() {
         ModelAndView modelAndView = new ModelAndView("profile");

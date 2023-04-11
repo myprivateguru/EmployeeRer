@@ -40,15 +40,18 @@
         <div class="col-lg-8 col-md-7">
             <div class="card">
                 <div class="card-block">
-                    <h4 class="card-title">Buses</h4>
-                    <h6 class="card-subtitle">Agency owned buses</h6>
+                    <h4 class="card-title">Jobs</h4>
+                    <h6 class="card-subtitle">Current Openings</h6>
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Bus Code</th>
-                                <th>Capacity</th>
+                                <th>Job Code</th>
+                                <th>Experience</th>
+                                <th>Job Title</th>
+                                <th>Description</th>
+                                
                             </tr>
                             </thead>
                             <tbody>
@@ -56,7 +59,9 @@
                                 <tr>
                                     <td th:text=${iterationStatus.count}></td>
                                     <td th:text=${bus.code}></td>
-                                    <td th:text=${bus.capacity}></td>
+                                    <td th:text=${bus.experience}></td>
+                                    <td th:text=${bus.jobTitle}></td>
+                                    <td th:text=${bus.description}></td>
                                 </tr>
                             </th:block>
                             </tbody>

@@ -18,10 +18,10 @@ public class BusFormCommand {
     private String code;
 
     @Min(value = 10, message = "Cannot enroll a bus with capacity smaller than 10")
-    private int capacity;
+    private int experience;
 
     @NotBlank
-    private String make;
+    private String description;
     
     @NotBlank
     private String jobTitle;

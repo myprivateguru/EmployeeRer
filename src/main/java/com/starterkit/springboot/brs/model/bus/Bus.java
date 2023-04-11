@@ -31,9 +31,9 @@ public class Bus {
 
     private String code;
 
-    private int capacity;
+    private int experience;
 
-    private String make;
+    private String description;
     
     private String jobTitle;
 

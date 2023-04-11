@@ -26,9 +26,8 @@ public class BusReservationSystemApplication {
 
     @Bean
     CommandLineRunner init(RoleRepository roleRepository, UserRepository userRepository,
-                           StopRepository stopRepository, AgencyRepository agencyRepository,
-                           BusRepository busRepository, TripRepository tripRepository,
-                           TripScheduleRepository tripScheduleRepository) {
+                           AgencyRepository agencyRepository,
+                           BusRepository busRepository) {
         return args -> {
             //Create Admin and Passenger Roles
             Role adminRole = roleRepository.findByRole(UserRoles.ADMIN);
@@ -72,41 +71,7 @@ public class BusReservationSystemApplication {
             }
 
             //Create four stops
-            Stop stopA = stopRepository.findByCode("STPA");
-            if (stopA == null) {
-                stopA = new Stop()
-                        .setName("Stop A")
-                        .setDetail("Near hills")
-                        .setCode("STPA");
-                stopRepository.save(stopA);
-            }
-
-            Stop stopB = stopRepository.findByCode("STPB");
-            if (stopB == null) {
-                stopB = new Stop()
-                        .setName("Stop B")
-                        .setDetail("Near river")
-                        .setCode("STPB");
-                stopRepository.save(stopB);
-            }
-
-            Stop stopC = stopRepository.findByCode("STPC");
-            if (stopC == null) {
-                stopC = new Stop()
-                        .setName("Stop C")
-                        .setDetail("Near desert")
-                        .setCode("STPC");
-                stopRepository.save(stopC);
-            }
-
-            Stop stopD = stopRepository.findByCode("STPD");
-            if (stopD == null) {
-                stopD = new Stop()
-                        .setName("Stop D")
-                        .setDetail("Near lake")
-                        .setCode("STPD");
-                stopRepository.save(stopD);
-            }
+         
 
             //Create an Agency
             Agency agencyA = agencyRepository.findByCode("AGENCY-A");
@@ -125,7 +90,7 @@ public class BusReservationSystemApplication {
                 busA = new Bus()
                         .setCode("AGENCY-A-1")
                         .setAgency(agencyA)
-                        .setCapacity(60);
+                        .setExperience(60);
                 busRepository.save(busA);
             }
 
@@ -137,28 +102,9 @@ public class BusReservationSystemApplication {
                 agencyRepository.save(agencyA);
             }
 
-            //Create a Trip
-            Trip trip = tripRepository.findBySourceStopAndDestStopAndBus(stopA, stopB, busA);
-            if (trip == null) {
-                trip = new Trip()
-                        .setSourceStop(stopA)
-                        .setDestStop(stopB)
-                        .setBus(busA)
-                        .setAgency(agencyA)
-                        .setFare(100)
-                        .setJourneyTime(60);
-                tripRepository.save(trip);
-            }
+            
 
-            //Create a trip schedule
-            TripSchedule tripSchedule = tripScheduleRepository.findByTripDetailAndTripDate(trip, DateUtils.todayStr());
-            if (tripSchedule == null) {
-                tripSchedule = new TripSchedule()
-                        .setTripDetail(trip)
-                        .setTripDate(DateUtils.todayStr())
-                        .setAvailableSeats(trip.getBus().getCapacity());
-                tripScheduleRepository.save(tripSchedule);
-            }
+            
         };
     }
 }
