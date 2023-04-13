@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 public class JobsFormCommand {
     @NotBlank
     @Size(min = 4, max = 8)
-    private String code;
+    private String jobcode;
 
     @Min(value = 10, message = "Cannot enroll a bus with capacity smaller than 10")
     private int experience;

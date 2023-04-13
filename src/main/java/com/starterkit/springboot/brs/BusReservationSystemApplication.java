@@ -26,7 +26,7 @@ public class BusReservationSystemApplication {
 
     @Bean
     CommandLineRunner init(RoleRepository roleRepository, UserRepository userRepository,
-                           AgencyRepository agencyRepository,
+                          
                            JobsRepository busRepository) {
         return args -> {
             //Create Admin and Passenger Roles
@@ -57,33 +57,7 @@ public class BusReservationSystemApplication {
                 userRepository.save(admin);
             }
 
-            //Create a passenger user
-            User passenger = userRepository.findByEmail("passenger@gmail.com");
-            if (passenger == null) {
-                passenger = new User()
-                        .setEmail("passenger@gmail.com")
-                        .setPassword("$2a$10$7PtcjEnWb/ZkgyXyxY1/Iei2dGgGQUbqIIll/dt.qJ8l8nQBWMbYO") // "123456"
-                        .setFirstName("Mira")
-                        .setLastName("Jane")
-                        .setMobileNumber("8000110008")
-                        .setRoles(Arrays.asList(userRole));
-                userRepository.save(passenger);
-            }
-
-            //Create four stops
-         
-
-            //Create an Agency
-            Agency agencyA = agencyRepository.findByCode("AGENCY-A");
-            if (agencyA == null) {
-                agencyA = new Agency()
-                        .setName("Green Mile Agency")
-                        .setCode("AGENCY-A")
-                        .setRef("Reaching desitnations with ease")
-                        .setOwner(admin);
-                agencyRepository.save(agencyA);
-            }
-
+           
 
             
 

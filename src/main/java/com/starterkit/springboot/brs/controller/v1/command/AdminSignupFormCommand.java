@@ -29,7 +29,7 @@ public class AdminSignupFormCommand {
 
     @NotBlank
     @Size(min = 5, max = 100)
-    private String agencyName;
+    private String username;
 
     
     @Size(max = 100)

@@ -61,6 +61,7 @@ public class UserServiceImpl implements UserService {
                     .setFirstName(userDto.getFirstName())
                     .setLastName(userDto.getLastName())
                     .setCoins(userDto.getCoins())
+                    .setUsername(userDto.getUsername())
                     .setMobileNumber(userDto.getMobileNumber());
             return UserMapper.toUserDto(userRepository.save(user));
         }

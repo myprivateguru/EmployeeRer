@@ -29,8 +29,6 @@ import static com.starterkit.springboot.brs.exception.ExceptionType.*;
  */
 @Component
 public class JobsReservationServiceImpl implements JobsReservationService {
-    @Autowired
-    private AgencyRepository agencyRepository;
 
     @Autowired
     private JobsRepository jobsRepository;
@@ -50,49 +48,6 @@ public class JobsReservationServiceImpl implements JobsReservationService {
 
   
 
-    /**
-     * Fetch AgencyDto from userDto
-     *
-     * @param userDto
-     * @return
-     */
-    @Override
-    public AgencyDto getAgency(UserDto userDto) {
-        User user = getUser(userDto.getEmail());
-        if (user != null) {
-            Optional<Agency> agency = Optional.ofNullable(agencyRepository.findByOwner(user));
-            if (agency.isPresent()) {
-                return modelMapper.map(agency.get(), AgencyDto.class);
-            }
-            throw exceptionWithId(AGENCY, ENTITY_NOT_FOUND, 2, user.getEmail());
-        }
-        throw exception(USER, ENTITY_NOT_FOUND, userDto.getEmail());
-    }
-
-    /**
-     * Register a new agency from the Admin signup flow
-     *
-     * @param agencyDto
-     * @return
-     */
-    @Override
-    public AgencyDto addAgency(AgencyDto agencyDto) {
-        User admin = getUser(agencyDto.getOwner().getEmail());
-        if (admin != null) {
-            Optional<Agency> agency = Optional.ofNullable(agencyRepository.findByName(agencyDto.getName()));
-            if (!agency.isPresent()) {
-                Agency agencyModel = new Agency()
-                        .setName(agencyDto.getName())
-                        .setRef(agencyDto.getRef())
-                        .setCode(RandomStringUtil.getAlphaNumericString(8, agencyDto.getName()))
-                        .setOwner(admin);
-                agencyRepository.save(agencyModel);
-                return modelMapper.map(agencyModel, AgencyDto.class);
-            }
-            throw exception(AGENCY, DUPLICATE_ENTITY, agencyDto.getName());
-        }
-        throw exception(USER, ENTITY_NOT_FOUND, agencyDto.getOwner().getEmail());
-    }
 
     /**
      * Updates the agency with given Bus information
@@ -101,37 +56,6 @@ public class JobsReservationServiceImpl implements JobsReservationService {
      * @param jobsDto
      * @return
      */
-    @Transactional
-    public AgencyDto updateAgency(AgencyDto agencyDto, JobsDto jobsDto) {
-        Agency agency = getAgency(agencyDto.getCode());
-        if (agency != null) {
-            if (jobsDto != null) {
-                Optional<Jobs> bus = Optional.ofNullable(jobsRepository.findByCodeAndAgency(jobsDto.getCode(), agency));
-                if (!bus.isPresent()) {
-                    Jobs busModel = new Jobs()
-                            .setAgency(agency)
-                            .setCode(jobsDto.getCode())
-                            .setExperience(jobsDto.getExperience())
-                            .setJobTitle(jobsDto.getJobTitle())
-                            .setDescription(jobsDto.getDescription());
-                    jobsRepository.save(busModel);
-                    if (agency.getJobss() == null) {
-                        agency.setJobss(new HashSet<>());
-                    }
-                    agency.getJobss().add(busModel);
-                    return modelMapper.map(agencyRepository.save(agency), AgencyDto.class);
-                }
-                throw exceptionWithId(BUS, DUPLICATE_ENTITY, 2, jobsDto.getCode(), agencyDto.getCode());
-            } else {
-                //update agency details case
-                agency.setName(agencyDto.getName())
-                        .setRef(agencyDto.getRef());
-                return modelMapper.map(agencyRepository.save(agency), AgencyDto.class);
-            }
-        }
-        throw exceptionWithId(AGENCY, ENTITY_NOT_FOUND, 2, agencyDto.getOwner().getEmail());
-    }
-
 
 
 
@@ -154,7 +78,7 @@ public class JobsReservationServiceImpl implements JobsReservationService {
      * @return
      */
     private Jobs getBus(String busCode) {
-        return jobsRepository.findByCode(busCode);
+        return jobsRepository.findByJobcode(busCode);
     }
 
     /**
@@ -163,9 +87,6 @@ public class JobsReservationServiceImpl implements JobsReservationService {
      * @param agencyCode
      * @return
      */
-    private Agency getAgency(String agencyCode) {
-        return agencyRepository.findByCode(agencyCode);
-    }
 
     /**
      * Returns a new RuntimeException

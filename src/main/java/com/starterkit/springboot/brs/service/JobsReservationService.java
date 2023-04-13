@@ -13,15 +13,4 @@ import java.util.Set;
 public interface JobsReservationService {
 
 
-
-    //Agency related methods
-    AgencyDto getAgency(UserDto userDto);
-
-    AgencyDto addAgency(AgencyDto agencyDto);
-
-    AgencyDto updateAgency(AgencyDto agencyDto, JobsDto jobsDto);
-
-  
-
-
 }

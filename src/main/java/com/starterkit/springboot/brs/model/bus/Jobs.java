@@ -15,21 +15,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Accessors(chain = true)
 @Entity
-@Table(
-        name = "bus",
-        indexes = @Index(
-                name = "idx_bus_code",
-                columnList = "code",
-                unique = true
-        )
-)
+@Table(name = "jobs")
 public class Jobs {
     @Id
-    @Column(name = "bus_id")
+    @Column(name = "job_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String code;
+    private String jobcode;
 
     private int experience;
 
@@ -37,7 +30,9 @@ public class Jobs {
     
     private String jobTitle;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "agency_id")
-    private Agency agency;
+	/*
+	 * @ManyToOne(fetch = FetchType.LAZY)
+	 * 
+	 * @JoinColumn(name = "agency_id") private Agency agency;
+	 */
 }

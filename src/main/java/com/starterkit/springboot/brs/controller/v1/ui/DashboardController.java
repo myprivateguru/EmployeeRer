@@ -1,7 +1,6 @@
 package com.starterkit.springboot.brs.controller.v1.ui;
 
 import com.starterkit.springboot.brs.controller.v1.command.*;
-import com.starterkit.springboot.brs.dto.model.bus.AgencyDto;
 import com.starterkit.springboot.brs.dto.model.bus.JobsDto;
 import com.starterkit.springboot.brs.dto.model.user.UserDto;
 import com.starterkit.springboot.brs.service.JobsReservationService;
@@ -43,32 +42,13 @@ public class DashboardController {
         return modelAndView;
     }
 
-    @GetMapping(value = "/agency")
-    public ModelAndView agencyDetails() {
-        ModelAndView modelAndView = new ModelAndView("agency");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDto userDto = userService.findUserByEmail(auth.getName());
-        AgencyDto agencyDto = jobsReservationService.getAgency(userDto);
-        AgencyFormCommand agencyFormCommand = new AgencyFormCommand()
-                .setAgencyName(agencyDto.getName())
-                .setRef(agencyDto.getRef());
-        modelAndView.addObject("agencyFormData", agencyFormCommand);
-        modelAndView.addObject("agency", agencyDto);
-        modelAndView.addObject("userName", userDto.getFullName());
-        return modelAndView;
-    }
 
     @GetMapping(value = "/jobs")
     public ModelAndView jobDetails() {
         ModelAndView modelAndView = new ModelAndView("jobs");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
-        AgencyDto agencyDto = jobsReservationService.getAgency(userDto);
-        AgencyFormCommand agencyFormCommand = new AgencyFormCommand()
-                .setAgencyName(agencyDto.getName())
-                .setRef(agencyDto.getRef());
-        modelAndView.addObject("agencyFormData", agencyFormCommand);
-        modelAndView.addObject("agency", agencyDto);
+        modelAndView.addObject("jobFormData", new JobsFormCommand());
         modelAndView.addObject("userName", userDto.getFullName());
         return modelAndView;
     }
@@ -78,24 +58,23 @@ public class DashboardController {
         ModelAndView modelAndView = new ModelAndView("jobs");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
-        AgencyDto agencyDto = jobsReservationService.getAgency(userDto);
+        
         modelAndView.addObject("userName", userDto.getFullName());
-        modelAndView.addObject("agency", agencyDto);
+    
         String randomCode = UUID.randomUUID().toString().replaceAll("-", "");
         String cod= randomCode.substring(0, 6).toUpperCase();
         if (!bindingResult.hasErrors()) {
             try {
                 JobsDto jobsDto = new JobsDto()
-                        .setCode(cod)
+                        .setJobcode(cod)
                         .setExperience(jobsFormCommand.getExperience())
                         .setJobTitle(jobsFormCommand.getJobTitle())
                         .setDescription(jobsFormCommand.getDescription());
                 
-                AgencyDto updatedAgencyDto = jobsReservationService.updateAgency(agencyDto, jobsDto);
-                modelAndView.addObject("agency", updatedAgencyDto);
+               
                 modelAndView.addObject("jobsFormData", new JobsFormCommand());
             } catch (Exception ex) {
-                bindingResult.rejectValue("code", "error.jobsFormCommand", ex.getMessage());
+                bindingResult.rejectValue("jobcode", "error.jobsFormCommand", ex.getMessage());
             }
         }
         return modelAndView;
@@ -107,40 +86,18 @@ public class DashboardController {
         ModelAndView modelAndView = new ModelAndView("share");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
-        AgencyDto agencyDto = jobsReservationService.getAgency(userDto);
-        AgencyFormCommand agencyFormCommand = new AgencyFormCommand()
-                .setAgencyName(agencyDto.getName())
-                .setRef(agencyDto.getRef());
-        modelAndView.addObject("agencyFormData", agencyFormCommand);
-        modelAndView.addObject("agency", agencyDto);
+        
         modelAndView.addObject("userName", userDto.getFullName());
         return modelAndView;
     }
-    @PostMapping(value = "/agency")
-    public ModelAndView updateAgency(@Valid @ModelAttribute("agencyFormData") AgencyFormCommand agencyFormCommand, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView("agency");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDto userDto = userService.findUserByEmail(auth.getName());
-        AgencyDto agencyDto = jobsReservationService.getAgency(userDto);
-        modelAndView.addObject("agency", agencyDto);
-        modelAndView.addObject("userName", userDto.getFullName());
-        if (!bindingResult.hasErrors()) {
-            if (agencyDto != null) {
-                agencyDto.setName(agencyFormCommand.getAgencyName())
-                        .setRef(agencyFormCommand.getRef());
-                jobsReservationService.updateAgency(agencyDto, null);
-            }
-        }
-        return modelAndView;
-    }
+   
 
     @GetMapping(value = "/bus")
     public ModelAndView busDetails() {
         ModelAndView modelAndView = new ModelAndView("bus");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
-        AgencyDto agencyDto = jobsReservationService.getAgency(userDto);
-        modelAndView.addObject("agency", agencyDto);
+        
         modelAndView.addObject("busFormData", new JobsFormCommand());
         modelAndView.addObject("userName", userDto.getFullName());
         return modelAndView;
@@ -160,21 +117,21 @@ public class DashboardController {
         ModelAndView modelAndView = new ModelAndView("bus");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
-        AgencyDto agencyDto = jobsReservationService.getAgency(userDto);
+        
         modelAndView.addObject("userName", userDto.getFullName());
-        modelAndView.addObject("agency", agencyDto);
+       
         String randomCode = UUID.randomUUID().toString().replaceAll("-", "");
         String cod= randomCode.substring(0, 6);
         if (!bindingResult.hasErrors()) {
             try {
                 JobsDto jobsDto = new JobsDto()
-                        .setCode(cod)
+                        .setJobcode(cod)
                         .setExperience(busFormCommand.getExperience())
                         .setJobTitle(busFormCommand.getJobTitle())
                         .setDescription(busFormCommand.getDescription());
                 
-                AgencyDto updatedAgencyDto = jobsReservationService.updateAgency(agencyDto, jobsDto);
-                modelAndView.addObject("agency", updatedAgencyDto);
+                
+                
                 modelAndView.addObject("busFormData", new JobsFormCommand());
             } catch (Exception ex) {
                 bindingResult.rejectValue("code", "error.busFormCommand", ex.getMessage());

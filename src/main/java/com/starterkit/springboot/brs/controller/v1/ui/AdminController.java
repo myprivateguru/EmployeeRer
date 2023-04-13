@@ -2,7 +2,6 @@ package com.starterkit.springboot.brs.controller.v1.ui;
 
 
 import com.starterkit.springboot.brs.controller.v1.command.AdminSignupFormCommand;
-import com.starterkit.springboot.brs.dto.model.bus.AgencyDto;
 import com.starterkit.springboot.brs.dto.model.user.UserDto;
 import com.starterkit.springboot.brs.model.user.User;
 import com.starterkit.springboot.brs.repository.user.UserRepository;
@@ -71,7 +70,10 @@ public class AdminController {
         } else {
             try {
             	//String ref = request.getParameter("ref");
+            	
                 UserDto newUser = registerAdmin(adminSignupFormCommand);
+                userService.signup(newUser);
+                
             } catch (Exception exception) {
                 bindingResult.rejectValue("email", "error.adminSignupFormCommand", exception.getMessage());
                 return modelAndView;
@@ -93,6 +95,7 @@ public class AdminController {
                 .setFirstName(adminSignupRequest.getFirstName())
                 .setLastName(adminSignupRequest.getLastName())
                 .setMobileNumber(adminSignupRequest.getMobileNumber())
+                .setUsername(adminSignupRequest.getUsername())
                 .setRef(adminSignupRequest.getRef())
                 .setAdmin(true);
         
@@ -103,12 +106,7 @@ public class AdminController {
                 userDto.setCoins(COINS_PER_REFERRAL);
             }
         
-        UserDto admin = userService.signup(userDto); //register the admin
-        AgencyDto agencyDto = new AgencyDto()
-                .setName(adminSignupRequest.getAgencyName())
-                .setRef(adminSignupRequest.getRef())
-                .setOwner(admin);
-        jobsReservationService.addAgency(agencyDto); //add the agency for this admin
-        return admin;
+       
+        return userDto;
     }
 }
