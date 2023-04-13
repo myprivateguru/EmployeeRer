@@ -3,6 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/layout">
 
 <head>
+	 <script src="/js/profile.js"></script>
 </head>
 
 <body>
@@ -46,10 +47,12 @@
                                 <font class="font-medium">54</font></a></div>
                         </div>
                          <!-- Progress bar -->
-                       <div class="progress">
-  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-</div>
-
+  <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+             th:style="'width: ' + ${getProfileCompletion} + '%'" th:text="${getProfileCompletion} + '%'">
+        </div>
+    </div>
+    
                     </center>
                 </div>
             </div>

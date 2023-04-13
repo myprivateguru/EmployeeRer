@@ -100,53 +100,9 @@ public class DashboardController {
     }
    
 
-    @GetMapping(value = "/bus")
-    public ModelAndView busDetails() {
-        ModelAndView modelAndView = new ModelAndView("bus");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDto userDto = userService.findUserByEmail(auth.getName());
-        
-        modelAndView.addObject("busFormData", new JobsFormCommand());
-        modelAndView.addObject("userName", userDto.getFullName());
-        return modelAndView;
-    }
     
-    
-    
-    @GetMapping(value = "/hello")
-    public ModelAndView helloView() {
-        ModelAndView modelAndView = new ModelAndView("hello");
-        
-        return modelAndView;
-    }
 
-    @PostMapping(value = "/bus")
-    public ModelAndView addNewBus(@Valid @ModelAttribute("busFormData") JobsFormCommand busFormCommand, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView("bus");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDto userDto = userService.findUserByEmail(auth.getName());
-        
-        modelAndView.addObject("userName", userDto.getFullName());
-       
-        String randomCode = UUID.randomUUID().toString().replaceAll("-", "");
-        String cod= randomCode.substring(0, 6);
-        if (!bindingResult.hasErrors()) {
-            try {
-                JobsDto jobsDto = new JobsDto()
-                        .setJobcode(cod)
-                        .setExperience(busFormCommand.getExperience())
-                        .setJobTitle(busFormCommand.getJobTitle())
-                        .setDescription(busFormCommand.getDescription());
-                
-                
-                
-                modelAndView.addObject("busFormData", new JobsFormCommand());
-            } catch (Exception ex) {
-                bindingResult.rejectValue("code", "error.busFormCommand", ex.getMessage());
-            }
-        }
-        return modelAndView;
-    }
+
 
   
    
@@ -165,6 +121,8 @@ public class DashboardController {
         modelAndView.addObject("profileForm", profileFormCommand);
         modelAndView.addObject("passwordForm", passwordFormCommand);
         modelAndView.addObject("userName", userDto.getFullName());
+        int profileCompletionpx=60;
+		modelAndView.addObject("getProfileCompletion",profileCompletionpx);
         return modelAndView;
     }
 
