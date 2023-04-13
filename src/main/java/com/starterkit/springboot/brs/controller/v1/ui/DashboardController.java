@@ -3,6 +3,8 @@ package com.starterkit.springboot.brs.controller.v1.ui;
 import com.starterkit.springboot.brs.controller.v1.command.*;
 import com.starterkit.springboot.brs.dto.model.bus.JobsDto;
 import com.starterkit.springboot.brs.dto.model.user.UserDto;
+import com.starterkit.springboot.brs.model.bus.Jobs;
+import com.starterkit.springboot.brs.repository.bus.JobsRepository;
 import com.starterkit.springboot.brs.service.JobsReservationService;
 import com.starterkit.springboot.brs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -28,7 +32,8 @@ public class DashboardController {
 
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private JobsRepository jobsRepository;
     @Autowired
     private JobsReservationService jobsReservationService;
 
@@ -48,8 +53,10 @@ public class DashboardController {
         ModelAndView modelAndView = new ModelAndView("jobs");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
+       ArrayList<Jobs> alljobs= jobsReservationService.getAllJobs();
         modelAndView.addObject("jobFormData", new JobsFormCommand());
         modelAndView.addObject("userName", userDto.getFullName());
+        modelAndView.addObject("alljobs",alljobs);
         return modelAndView;
     }
     
@@ -71,7 +78,8 @@ public class DashboardController {
                         .setJobTitle(jobsFormCommand.getJobTitle())
                         .setDescription(jobsFormCommand.getDescription());
                 
-               
+             ArrayList<Jobs> jobList =  jobsReservationService.updateJobs(jobsDto);
+             modelAndView.addObject("alljobs",jobList);
                 modelAndView.addObject("jobsFormData", new JobsFormCommand());
             } catch (Exception ex) {
                 bindingResult.rejectValue("jobcode", "error.jobsFormCommand", ex.getMessage());

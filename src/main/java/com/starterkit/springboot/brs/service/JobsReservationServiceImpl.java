@@ -114,6 +114,36 @@ public class JobsReservationServiceImpl implements JobsReservationService {
 
 
 
+	@Override
+	public ArrayList<Jobs> updateJobs(JobsDto jobsDto) {
+		 Optional<Jobs> job = Optional.ofNullable(jobsRepository.findByJobcode(jobsDto.getJobcode()));
+	
+		  if (!job.isPresent()) {
+              Jobs busModel = new Jobs()
+                      .setJobcode(jobsDto.getJobcode())
+                      .setJobTitle(jobsDto.getJobTitle())
+                      .setExperience(jobsDto.getExperience())
+                      .setDescription(jobsDto.getDescription());
+              jobsRepository.save(busModel);
+		
+		
+	}
+		return (ArrayList<Jobs>) jobsRepository.findAll();
+	}
+
+
+
+	@Override
+	public ArrayList<Jobs> getAllJobs() {
+		// TODO Auto-generated method stub
+		return (ArrayList<Jobs>) jobsRepository.findAll();
+	}
+
+
+
+
+
+
 	
 	
 
