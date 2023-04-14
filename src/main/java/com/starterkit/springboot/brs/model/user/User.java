@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
@@ -44,6 +46,7 @@ public class User {
     private Integer coins=0;
     private String username;
 
+    private ArrayList<String> refTo;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},

@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
@@ -131,4 +132,25 @@ public class UserServiceImpl implements UserService {
     private RuntimeException exception(EntityType entityType, ExceptionType exceptionType, String... args) {
         return BRSException.throwException(entityType, exceptionType, args);
     }
+    
+    public int getProfileCompletion(UserDto user) {
+    	//Optional<User> user = Optional.ofNullable(userRepository.findByEmail(userDto.getEmail()));
+        int totalFields = 0;
+        int completedFields = 0;
+        Field[] fields = user.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            totalFields++;
+            field.setAccessible(true);
+            try {
+                if (field.get(user) != null && !field.get(user).toString().isEmpty()) {
+                    completedFields++;
+                }
+            } catch (IllegalAccessException e) {
+                // handle exception
+            }
+        }
+        return (int) Math.round((double) completedFields / totalFields * 100);
+    }
+
+
 }

@@ -2,27 +2,18 @@ package com.starterkit.springboot.brs.service;
 
 
 
-import com.starterkit.springboot.brs.dto.model.bus.*;
-import com.starterkit.springboot.brs.dto.model.user.UserDto;
+import com.starterkit.springboot.brs.dto.model.user.JobsDto;
 import com.starterkit.springboot.brs.exception.BRSException;
 import com.starterkit.springboot.brs.exception.EntityType;
 import com.starterkit.springboot.brs.exception.ExceptionType;
-import com.starterkit.springboot.brs.model.bus.*;
+import com.starterkit.springboot.brs.model.user.Jobs;
 import com.starterkit.springboot.brs.model.user.User;
-import com.starterkit.springboot.brs.repository.bus.*;
+import com.starterkit.springboot.brs.repository.user.JobsRepository;
 import com.starterkit.springboot.brs.repository.user.UserRepository;
-import com.starterkit.springboot.brs.util.RandomStringUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static com.starterkit.springboot.brs.exception.EntityType.*;
-import static com.starterkit.springboot.brs.exception.ExceptionType.*;
 
 /**
  * Created by Dnyaneshwar Somwanshi.

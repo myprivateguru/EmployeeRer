@@ -1,4 +1,4 @@
-package com.starterkit.springboot.brs.dto.model.user;
+package com.starterkit.springboot.brs.model.user;
 
 import java.util.Set;
 
@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.starterkit.springboot.brs.model.bus.Jobs;
 
 import lombok.Getter;
 import lombok.Setter;

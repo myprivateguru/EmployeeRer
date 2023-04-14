@@ -1,4 +1,4 @@
-package com.starterkit.springboot.brs.dto.model.bus;
+package com.starterkit.springboot.brs.dto.model.user;
 
 import java.util.Set;
 
@@ -7,7 +7,7 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.starterkit.springboot.brs.model.bus.Jobs;
+import com.starterkit.springboot.brs.model.user.Jobs;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

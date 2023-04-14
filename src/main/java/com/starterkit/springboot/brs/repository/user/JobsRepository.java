@@ -1,8 +1,8 @@
-package com.starterkit.springboot.brs.repository.bus;
-
-import com.starterkit.springboot.brs.model.bus.Jobs;
+package com.starterkit.springboot.brs.repository.user;
 
 import org.springframework.data.repository.CrudRepository;
+
+import com.starterkit.springboot.brs.model.user.Jobs;
 
 /**
  * Created by Dnyaneshwar Somwanshi.

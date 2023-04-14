@@ -1,4 +1,4 @@
-package com.starterkit.springboot.brs.model.bus;
+package com.starterkit.springboot.brs.model.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,9 +30,7 @@ public class Jobs {
     
     private String jobTitle;
 
-	/*
-	 * @ManyToOne(fetch = FetchType.LAZY)
-	 * 
-	 * @JoinColumn(name = "agency_id") private Agency agency;
-	 */
+	
+	
+	 
 }

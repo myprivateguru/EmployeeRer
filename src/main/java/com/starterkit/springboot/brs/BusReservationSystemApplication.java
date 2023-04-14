@@ -1,10 +1,10 @@
 package com.starterkit.springboot.brs;
 
-import com.starterkit.springboot.brs.model.bus.*;
+
 import com.starterkit.springboot.brs.model.user.Role;
 import com.starterkit.springboot.brs.model.user.User;
 import com.starterkit.springboot.brs.model.user.UserRoles;
-import com.starterkit.springboot.brs.repository.bus.*;
+import com.starterkit.springboot.brs.repository.user.JobsRepository;
 import com.starterkit.springboot.brs.repository.user.RoleRepository;
 import com.starterkit.springboot.brs.repository.user.UserRepository;
 import com.starterkit.springboot.brs.util.DateUtils;
@@ -52,6 +52,7 @@ public class BusReservationSystemApplication {
                         .setPassword("$2a$10$7PtcjEnWb/ZkgyXyxY1/Iei2dGgGQUbqIIll/dt.qJ8l8nQBWMbYO") // "123456"
                         .setFirstName("John")
                         .setLastName("Doe")
+                        .setUsername("admin")
                         .setMobileNumber("9425094250")
                         .setRoles(Arrays.asList(adminRole));
                 userRepository.save(admin);

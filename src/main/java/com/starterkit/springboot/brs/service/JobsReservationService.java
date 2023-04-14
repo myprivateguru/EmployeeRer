@@ -1,8 +1,9 @@
 package com.starterkit.springboot.brs.service;
 
-import com.starterkit.springboot.brs.dto.model.bus.*;
+
+import com.starterkit.springboot.brs.dto.model.user.JobsDto;
 import com.starterkit.springboot.brs.dto.model.user.UserDto;
-import com.starterkit.springboot.brs.model.bus.Jobs;
+import com.starterkit.springboot.brs.model.user.Jobs;
 
 import java.util.ArrayList;
 import java.util.List;

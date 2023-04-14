@@ -99,8 +99,9 @@ public class AdminController {
                 .setRef(adminSignupRequest.getRef())
                 .setAdmin(true);
         
-            User referrer = userRepository.findByEmail(userDto.getRef());
+            User referrer = userRepository.findByUsername(userDto.getRef());
             if (referrer != null) {
+            //add code here to store refto 
                 referrer.setCoins(referrer.getCoins() + COINS_PER_REFERRAL);
                 userRepository.save(referrer);
                 userDto.setCoins(COINS_PER_REFERRAL);

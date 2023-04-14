@@ -1,10 +1,10 @@
 package com.starterkit.springboot.brs.controller.v1.ui;
 
 import com.starterkit.springboot.brs.controller.v1.command.*;
-import com.starterkit.springboot.brs.dto.model.bus.JobsDto;
+import com.starterkit.springboot.brs.dto.model.user.JobsDto;
 import com.starterkit.springboot.brs.dto.model.user.UserDto;
-import com.starterkit.springboot.brs.model.bus.Jobs;
-import com.starterkit.springboot.brs.repository.bus.JobsRepository;
+import com.starterkit.springboot.brs.model.user.Jobs;
+import com.starterkit.springboot.brs.repository.user.JobsRepository;
 import com.starterkit.springboot.brs.service.JobsReservationService;
 import com.starterkit.springboot.brs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -36,6 +34,7 @@ public class DashboardController {
     private JobsRepository jobsRepository;
     @Autowired
     private JobsReservationService jobsReservationService;
+    String myProductionWeb="https://www.localhost:8090/";
 
     @GetMapping(value = "/dashboard")
     public ModelAndView dashboard() {
@@ -94,12 +93,22 @@ public class DashboardController {
         ModelAndView modelAndView = new ModelAndView("share");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
+        String referralLink=myProductionWeb+userDto.getUsername();
+        modelAndView.addObject("referralLink",referralLink);
+        modelAndView.addObject("userName", userDto.getFullName());
+        return modelAndView;
+    }
+   
+    @GetMapping(value = "/wallet")
+    public ModelAndView getWallet() {
+        ModelAndView modelAndView = new ModelAndView("wallet");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto userDto = userService.findUserByEmail(auth.getName());
         
         modelAndView.addObject("userName", userDto.getFullName());
         return modelAndView;
     }
    
-
     
 
 
@@ -111,6 +120,7 @@ public class DashboardController {
         ModelAndView modelAndView = new ModelAndView("profile");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
+       int profileCompletionpx=userService.getProfileCompletion(userDto);
         ProfileFormCommand profileFormCommand = new ProfileFormCommand()
                 .setFirstName(userDto.getFirstName())
                 .setLastName(userDto.getLastName())
@@ -121,7 +131,7 @@ public class DashboardController {
         modelAndView.addObject("profileForm", profileFormCommand);
         modelAndView.addObject("passwordForm", passwordFormCommand);
         modelAndView.addObject("userName", userDto.getFullName());
-        int profileCompletionpx=60;
+//        int profileCompletionpx=60;
 		modelAndView.addObject("getProfileCompletion",profileCompletionpx);
         return modelAndView;
     }

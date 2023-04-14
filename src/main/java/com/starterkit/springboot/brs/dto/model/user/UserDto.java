@@ -28,6 +28,7 @@ public class UserDto {
     private String lastName;
     private String mobileNumber;
     private String ref;
+    private String refto;
     private String username;
     private Integer coins=0;
     private boolean isAdmin;
