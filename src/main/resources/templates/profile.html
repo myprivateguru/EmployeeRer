@@ -35,6 +35,10 @@
         <!-- Column -->
         <div class="col-lg-4 col-xlg-3 col-md-5">
             <div class="card">
+				<i class="fa fa-question-circle" style="font-size:18px;color:red" title=${getProfileCompletion.uncompletedFields}></i>
+
+
+
                 <div class="card-block">
                     <center class="m-t-30"><img src="/dashboard/assets/images/users/5.jpg" class="img-circle"
                                                 width="150"/>
@@ -49,7 +53,7 @@
                          <!-- Progress bar -->
   <div class="progress">
         <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-             th:style="'width: ' + ${getProfileCompletion} + '%'" th:text="${getProfileCompletion} + '%'">
+             th:style="'width: ' + ${getProfileCompletion.profileCompleted} + '%'" th:text="${getProfileCompletion.profileCompleted} + '%'">
         </div>
     </div>
     

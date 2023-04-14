@@ -1,5 +1,6 @@
 package com.starterkit.springboot.brs.service;
 
+import com.starterkit.springboot.brs.dto.model.user.ProfileCompletionDto;
 import com.starterkit.springboot.brs.dto.model.user.UserDto;
 import com.starterkit.springboot.brs.model.user.User;
 
@@ -38,5 +39,5 @@ public interface UserService {
      * @return
      */
     UserDto changePassword(UserDto userDto, String newPassword);
-    int getProfileCompletion(UserDto userDto);
+    ProfileCompletionDto getProfileCompletion(UserDto userDto);
 }

@@ -5154,10 +5154,18 @@ Login register and recover password Page
     right: 0px;
     position: absolute;
     height: 100%; }
+    
+    .card i.fa-question-circle {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
 
 /*******************
 FAQs Page
 ******************/
+
 .minimal-faq .card {
   border: 0px; }
   .minimal-faq .card .card-header {

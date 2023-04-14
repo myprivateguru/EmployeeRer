@@ -1,6 +1,7 @@
 package com.starterkit.springboot.brs.service;
 
 import com.starterkit.springboot.brs.dto.mapper.UserMapper;
+import com.starterkit.springboot.brs.dto.model.user.ProfileCompletionDto;
 import com.starterkit.springboot.brs.dto.model.user.UserDto;
 import com.starterkit.springboot.brs.exception.BRSException;
 import com.starterkit.springboot.brs.exception.EntityType;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
@@ -133,10 +135,12 @@ public class UserServiceImpl implements UserService {
         return BRSException.throwException(entityType, exceptionType, args);
     }
     
-    public int getProfileCompletion(UserDto user) {
+    public ProfileCompletionDto getProfileCompletion(UserDto user) {
     	//Optional<User> user = Optional.ofNullable(userRepository.findByEmail(userDto.getEmail()));
+    	ProfileCompletionDto profileDto= new ProfileCompletionDto();
         int totalFields = 0;
         int completedFields = 0;
+        ArrayList<Field>uncompletedFields= new ArrayList<>();
         Field[] fields = user.getClass().getDeclaredFields();
         for (Field field : fields) {
             totalFields++;
@@ -144,12 +148,18 @@ public class UserServiceImpl implements UserService {
             try {
                 if (field.get(user) != null && !field.get(user).toString().isEmpty()) {
                     completedFields++;
+                }else
+                {
+                	uncompletedFields.add(field);
+                	
                 }
             } catch (IllegalAccessException e) {
                 // handle exception
             }
         }
-        return (int) Math.round((double) completedFields / totalFields * 100);
+        profileDto.setProfileCompleted((int) Math.round((double) completedFields / totalFields * 100));
+     profileDto.setUncompletedFields(uncompletedFields);
+         return profileDto;
     }
 
 

@@ -2,7 +2,9 @@ package com.starterkit.springboot.brs.controller.v1.ui;
 
 
 import com.starterkit.springboot.brs.controller.v1.command.AdminSignupFormCommand;
+import com.starterkit.springboot.brs.dto.model.user.ReferralDto;
 import com.starterkit.springboot.brs.dto.model.user.UserDto;
+import com.starterkit.springboot.brs.model.user.Referral;
 import com.starterkit.springboot.brs.model.user.User;
 import com.starterkit.springboot.brs.repository.user.UserRepository;
 import com.starterkit.springboot.brs.service.JobsReservationService;
@@ -98,8 +100,9 @@ public class AdminController {
                 .setUsername(adminSignupRequest.getUsername())
                 .setRef(adminSignupRequest.getRef())
                 .setAdmin(true);
-        
-            User referrer = userRepository.findByUsername(userDto.getRef());
+        ReferralDto refer = new ReferralDto();
+//Write a code to set Referred user
+        User referrer = userRepository.findByUsername(userDto.getRef());
             if (referrer != null) {
             //add code here to store refto 
                 referrer.setCoins(referrer.getCoins() + COINS_PER_REFERRAL);

@@ -2,6 +2,7 @@ package com.starterkit.springboot.brs.controller.v1.ui;
 
 import com.starterkit.springboot.brs.controller.v1.command.*;
 import com.starterkit.springboot.brs.dto.model.user.JobsDto;
+import com.starterkit.springboot.brs.dto.model.user.ProfileCompletionDto;
 import com.starterkit.springboot.brs.dto.model.user.UserDto;
 import com.starterkit.springboot.brs.model.user.Jobs;
 import com.starterkit.springboot.brs.repository.user.JobsRepository;
@@ -120,7 +121,7 @@ public class DashboardController {
         ModelAndView modelAndView = new ModelAndView("profile");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
-       int profileCompletionpx=userService.getProfileCompletion(userDto);
+        ProfileCompletionDto profileCompletionpx = userService.getProfileCompletion(userDto);
         ProfileFormCommand profileFormCommand = new ProfileFormCommand()
                 .setFirstName(userDto.getFirstName())
                 .setLastName(userDto.getLastName())
@@ -141,6 +142,7 @@ public class DashboardController {
         ModelAndView modelAndView = new ModelAndView("profile");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
+        ProfileCompletionDto profileCompletionpx = userService.getProfileCompletion(userDto);
         PasswordFormCommand passwordFormCommand = new PasswordFormCommand()
                 .setEmail(userDto.getEmail())
                 .setPassword(userDto.getPassword());
@@ -152,6 +154,7 @@ public class DashboardController {
                     .setMobileNumber(profileFormCommand.getMobileNumber());
             userService.updateProfile(userDto);
             modelAndView.addObject("userName", userDto.getFullName());
+            modelAndView.addObject("getProfileCompletion",profileCompletionpx);
         }
         return modelAndView;
     }
