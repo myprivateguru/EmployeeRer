@@ -39,14 +39,17 @@
     <h6 class="card-subtitle">Current jobs</h6>
     <div class="table-responsive" style="display: flex; flex-wrap: wrap;">
       <th:block th:each="jobs,iterationStatus : ${alljobs}">
-        <div class="card" style="width: 45%; margin-right: 20px; margin-bottom: 20px;" th:href="@{/jobs/{id}(id=${jobs.id})}">
-          <div class="card-block">
+        <div class="card" style="width: 45%; margin-right: 20px; margin-bottom: 20px;">
+			<a th:href="@{/jobDetails/{id}(id=${jobs.id})}">
+				<div class="card-block">
             <h4 class="card-title" th:text=${iterationStatus.count}></h4>
             <h4 class="card-title" th:text=${jobs.jobTitle}></h4>
             <h4 class="card-title" th:text=${jobs.jobcode}></h4>
             <h6 class="card-subtitle" th:text=${jobs.experience}></h6>
             <h6 class="card-subtitle" th:text=${jobs.description}></h6>
           </div>
+			</a>
+          
         </div>
       </th:block>
     </div>

@@ -9,6 +9,8 @@ import com.jobportal.brs.repository.user.JobsRepository;
 import com.jobportal.brs.service.JobsReservationService;
 import com.jobportal.brs.service.UserService;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -17,12 +19,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -53,10 +57,12 @@ public class DashboardController {
 
 
     @GetMapping(value = "/jobs")
-    public ModelAndView jobDetails() {
+    public ModelAndView jobListed() {
         ModelAndView modelAndView = new ModelAndView("jobs");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
+        final Logger logger = LogManager.getLogger(DashboardController.class);
+        logger.info("getting info log!");
        ArrayList<Jobs> alljobs= jobsReservationService.getAllJobs();
         modelAndView.addObject("jobFormData", new JobsFormCommand());
         modelAndView.addObject("userName", userDto.getFullName());
@@ -91,7 +97,20 @@ public class DashboardController {
         }
         return modelAndView;
     }
-
+    @GetMapping(value = "/jobDetails/{jobId}")
+    public ModelAndView jobDetails(@PathVariable Long jobId) {
+        ModelAndView modelAndView = new ModelAndView("jobDetails");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto userDto = userService.findUserByEmail(auth.getName());
+        final Logger logger = LogManager.getLogger(DashboardController.class);
+        logger.info("getting info log!");
+       Optional<Jobs> job = jobsRepository.findById(jobId);
+       ArrayList<Jobs> alljobs= jobsReservationService.getAllJobs();
+        modelAndView.addObject("jobFormData", new JobsFormCommand());
+        modelAndView.addObject("userName", userDto.getFullName());
+        modelAndView.addObject("job", job.orElse(null));
+        return modelAndView;
+    }
     
     @GetMapping(value = "/share")
     public ModelAndView shareDetails() {
