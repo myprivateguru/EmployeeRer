@@ -14,6 +14,8 @@ import com.jobportal.brs.repository.user.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.time.Instant;
 import java.util.*;
 
 /**
@@ -109,6 +111,7 @@ public class JobsReservationServiceImpl implements JobsReservationService {
 	@Override
 	public ArrayList<Jobs> updateJobs(JobsDto jobsDto) {
 		 Optional<Jobs> job = Optional.ofNullable(jobsRepository.findByJobcode(jobsDto.getJobcode()));
+	Date date_added = Date.from(Instant.now());
 	
 		  if (!job.isPresent()) {
               Jobs jobModel = new Jobs()
@@ -123,6 +126,7 @@ public class JobsReservationServiceImpl implements JobsReservationService {
                       .setJobCategory(jobsDto.getJobCategory())
                       .setCompanyName(jobsDto.getCompanyName())
                       .setApplicationDeadline(jobsDto.getApplicationDeadline())
+                      .setDateAdded(date_added)
                       ;
               
               

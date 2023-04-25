@@ -39,6 +39,82 @@
 			
 		</div>
 		</div>
+		<div class="col-lg-8 col-md-7">
+			<div class="card">
+				<div class="card-block">
+					<div class="row">
+  <div class="col-lg-3 col-md-6 mb-4">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">Total Referrals</h5>
+        <p class="card-text">{{totalReferrals}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 mb-4">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">Successful Referrals</h5>
+        <p class="card-text">{{successfulReferrals}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 mb-4">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">Pending Referrals</h5>
+        <p class="card-text">{{pendingReferrals}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 mb-4">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">Referral Conversion Rate</h5>
+        <p class="card-text">{{conversionRate}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+				</div>
+			</div></div>
+		<div class="col-lg-8 col-md-7">
+			<div class="card">
+				<div class="card-block">
+					
+					<h1>My Referrals</h1>
+        <table>
+  <thead>
+    <tr>
+      <th>Referral Code</th>
+      <th>Email</th>
+      <th>Status</th>
+      <th>Referred At</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="referral : ${myReferrals}">
+      <td th:text="${referral.referralCode}"></td>
+      <td th:text="${referral.email}"></td>
+      <td th:text="${referral.status}"></td>
+      <td th:text="${referral.referredAt}"></td>
+      <td>
+        <div th:if="${referral.status == 'pending'}">
+          <form method="POST" th:action="@{/resend-code}">
+            <input type="hidden" name="referralId" th:value="${referral.id}">
+            <button type="submit">Resend Code</button>
+          </form>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+				</div>
+			</div>
+		</div>
 		
 		
 	

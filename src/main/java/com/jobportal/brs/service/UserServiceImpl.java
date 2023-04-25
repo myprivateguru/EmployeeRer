@@ -163,5 +163,11 @@ public class UserServiceImpl implements UserService {
          return profileDto;
     }
 
+	@Override
+	public User FindByusername(String username) {
+		// TODO Auto-generated method stub
+		return userRepository.findByUsername(username);
+	}
+
 
 }

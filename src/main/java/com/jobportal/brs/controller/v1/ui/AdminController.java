@@ -6,6 +6,7 @@ import com.jobportal.brs.dto.model.user.ReferralDto;
 import com.jobportal.brs.dto.model.user.UserDto;
 import com.jobportal.brs.model.user.Referral;
 import com.jobportal.brs.model.user.User;
+import com.jobportal.brs.repository.user.ReferralRepository;
 import com.jobportal.brs.repository.user.UserRepository;
 import com.jobportal.brs.service.JobsReservationService;
 import com.jobportal.brs.service.UserService;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -35,6 +38,9 @@ public class AdminController {
     JobsReservationService jobsReservationService;
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    ReferralRepository referralRepository;
     
     @Autowired
     private UserRepository userRepository;
@@ -98,18 +104,24 @@ public class AdminController {
                 .setFirstName(adminSignupRequest.getFirstName())
                 .setLastName(adminSignupRequest.getLastName())
                 .setMobileNumber(adminSignupRequest.getMobileNumber())
-                .setUsername(adminSignupRequest.getUsername())
+                .setUsername(adminSignupRequest.getUsername().toLowerCase())
                 .setRef(adminSignupRequest.getRef())
                 .setAdmin(true);
-        ReferralDto refer = new ReferralDto();
-//Write a code to set Referred user
         User referrer = userRepository.findByUsername(userDto.getRef());
-            if (referrer != null) {
-            //add code here to store refto 
-                referrer.setCoins(referrer.getCoins() + COINS_PER_REFERRAL);
-                userRepository.save(referrer);
-                userDto.setCoins(COINS_PER_REFERRAL);
-            }
+        if (referrer != null) {
+            Referral referral = new Referral();
+            referral.setReferralCode(adminSignupRequest.getRef().toLowerCase());
+            referral.setEmail(userDto.getEmail());
+            referral.setStatus("pending");
+            referral.setReferrer(referrer);
+            referral.setReferredAt(LocalDateTime.now());
+            referralRepository.save(referral);
+            referrer.getReferrals().add(referral);
+            referrer.setCoins(referrer.getCoins() + COINS_PER_REFERRAL);
+            userRepository.save(referrer);
+
+            userDto.setCoins(COINS_PER_REFERRAL);
+        }
         
        
         return userDto;

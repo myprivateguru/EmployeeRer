@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -43,10 +44,15 @@ public class User {
 
     @Column(name = "mobile_number")
     private String mobileNumber;
+    
     private Integer coins=0;
+    
     private String username;
+    
 
-    private ArrayList<String> refTo;
+    @OneToMany(mappedBy = "referrer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Referral> referrals = new ArrayList<>();
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},

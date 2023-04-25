@@ -1,10 +1,8 @@
-package com.jobportal.brs.controller.v1.ui;
+package com.jobportal.brs.controller.v1.command;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-
-import com.jobportal.brs.controller.v1.command.JobsFormCommand;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

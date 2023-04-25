@@ -39,5 +39,8 @@ public interface UserService {
      * @return
      */
     UserDto changePassword(UserDto userDto, String newPassword);
+    
     ProfileCompletionDto getProfileCompletion(UserDto userDto);
+
+	User FindByusername(String username);
 }

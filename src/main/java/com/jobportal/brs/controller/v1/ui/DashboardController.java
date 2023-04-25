@@ -5,6 +5,8 @@ import com.jobportal.brs.dto.model.user.JobsDto;
 import com.jobportal.brs.dto.model.user.ProfileCompletionDto;
 import com.jobportal.brs.dto.model.user.UserDto;
 import com.jobportal.brs.model.user.Jobs;
+import com.jobportal.brs.model.user.Referral;
+import com.jobportal.brs.model.user.User;
 import com.jobportal.brs.repository.user.JobsRepository;
 import com.jobportal.brs.service.JobsReservationService;
 import com.jobportal.brs.service.UserService;
@@ -224,7 +226,10 @@ public class DashboardController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
         String referralLink=myProductionWeb+"signup?ref="+userDto.getUsername();
+        User user = userService.FindByusername(userDto.getUsername());
+        List<Referral> myReferrals = user.getReferrals();
         modelAndView.addObject("referralLink",referralLink);
+        modelAndView.addObject("myReferrals",myReferrals);
         modelAndView.addObject("userName", userDto.getFullName());
         return modelAndView;
     }

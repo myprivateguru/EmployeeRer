@@ -8,4 +8,6 @@ import com.jobportal.brs.model.user.Referral;
 
 public interface ReferralRepository extends JpaRepository<Referral, Long> {
     List<Referral> findByReferrerId(long referrerId);
+
+
 }
