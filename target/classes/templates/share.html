@@ -47,31 +47,33 @@
     <div class="card text-center">
       <div class="card-body">
         <h5 class="card-title">Total Referrals</h5>
-        <p class="card-text">{{totalReferrals}}</p>
+        <h4 class="card-text"th:text="@{${myReferrals.size()}}"></h4>
       </div>
     </div>
   </div>
   <div class="col-lg-3 col-md-6 mb-4">
     <div class="card text-center">
-      <div class="card-body">
-        <h5 class="card-title">Successful Referrals</h5>
-        <p class="card-text">{{successfulReferrals}}</p>
-      </div>
+        <div class="card-body">
+            <h5 class="card-title">Successful Referrals</h5>
+            <h4 class="card-text" th:text="${myReferrals.?[status == 'active'].size()}"></h4>
+        </div>
     </div>
-  </div>
+</div>
+
   <div class="col-lg-3 col-md-6 mb-4">
     <div class="card text-center">
-      <div class="card-body">
-        <h5 class="card-title">Pending Referrals</h5>
-        <p class="card-text">{{pendingReferrals}}</p>
-      </div>
+        <div class="card-body">
+            <h5 class="card-title">Pending Referrals</h5>
+            <h4 class="card-text" th:text="${myReferrals.?[status == 'pending'].size()}"></h4>
+        </div>
     </div>
-  </div>
+</div>
+
   <div class="col-lg-3 col-md-6 mb-4">
     <div class="card text-center">
       <div class="card-body">
         <h5 class="card-title">Referral Conversion Rate</h5>
-        <p class="card-text">{{conversionRate}}</p>
+        <h4 class="card-text" th:text="${myReferrals.?[status == 'active'].size()/myReferrals.?[status == 'pending'].size() * 100}"></h4>
       </div>
     </div>
   </div>
