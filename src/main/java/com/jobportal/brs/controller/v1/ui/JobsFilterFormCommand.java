@@ -1,18 +1,17 @@
-package com.jobportal.brs.controller.v1.command;
-
-import lombok.Data;
-import lombok.experimental.Accessors;
+package com.jobportal.brs.controller.v1.ui;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-/**
- * Created by Dnyaneshwar Somwanshi.
- */
+import com.jobportal.brs.controller.v1.command.JobsFormCommand;
+
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 @Data
 @Accessors(chain = true)
-public class JobsFormCommand {
+public class JobsFilterFormCommand {
     @NotBlank
     @Size(min = 4, max = 8)
     private String jobcode;
@@ -25,18 +24,18 @@ public class JobsFormCommand {
     
     @NotBlank
     private String jobTitle;
-    
+    @NotBlank
     private String jobLocation;
-    
+    @NotBlank
     private String jobType;
     //full-time, part-time, freelance, etc.
-    
+    @NotBlank
     private String jobCategory;
     //e.g., IT, finance, marketing, etc.
-    
+    @NotBlank
     private String salaryRange;
-    
+    @NotBlank
     private String companyName;
-    
+    @NotBlank
     private String applicationDeadline;
 }

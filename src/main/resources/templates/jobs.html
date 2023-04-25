@@ -60,51 +60,58 @@
         <div class="col-lg-4 col-md-5">
             <div class="card">
                 <div class="card-block">
-                    <h3 class="card-title">Add New Job</h3>
+                    <h3 class="card-title">Add Filter</h3>
                     <h6 class="card-subtitle">Enter details</h6>
-                    <form method="POST" class="form-horizontal form-material" th:action="@{/jobs}" th:object="${jobsFormData}">
-                        <!--<div class="form-group">
-                            <label for="jobcode" class="col-md-12">Bus Code</label>
-                            <div class="col-md-12">
-                                <input type="text" th:field="*{jobcode}" class="form-control form-control-line" name="jobcode" id="jobcode">
-                            </div>
-                            <small class="text-danger-padded" th:if="${#fields.hasErrors('jobcode')}" th:errors="*{jobcode}"></small>
-                        </div>
-                        <div class="form-group">
-                            <label for="experience" class="col-md-12">Experience</label>
-                            <div class="col-md-12">
-                                <input type="text" th:field="*{experience}" class="form-control form-control-line" name="experience" id="experience">
-                            </div>
-                            <small class="text-danger-padded" th:if="${#fields.hasErrors('experience')}" th:errors="*{experience}"></small>
-                        </div>
-                        <div class="form-group">
-                            <label for="jobTitle" class="col-md-12">Make/Model</label>
-                            <div class="col-md-12">
-                                <input type="text" th:field="*{jobTitle}" class="form-control form-control-line" name="jobTitle" id="jobTitle">
-                            </div>
-                            <small class="text-danger-padded" th:if="${#fields.hasErrors('jobTitle')}" th:errors="*{jobTitle}"></small>
-                        </div>-->
-                        <div class="form-group">
-                            <label for="jobTitle" class="col-md-12">Job Title</label>
-                            <div class="col-md-12">
-                                <input type="text"  class="form-control form-control-line" name="jobTitle" id="jobTitle">
-                            </div>
-                         </div>
+                    <form method="POST" class="form-horizontal form-material" th:action="@{/jobs}" th:object="${filterFormData}">
+                        
+                       
                          <div class="form-group">
                             <label for="jobTitle" class="col-md-12">Experience</label>
                             <div class="col-md-12">
                                 <input type="text"  class="form-control form-control-line" name="experience" id="experience">
                             </div>
                          </div>
+                         
                          <div class="form-group">
-                            <label for="jobTitle" class="col-md-12">Description</label>
+                            <label for="jobLocation" class="col-md-12">Job Location</label>
                             <div class="col-md-12">
-                                <input type="text"  class="form-control form-control-line" name="description" id="description">
+                                <input type="text"  class="form-control form-control-line" name="jobLocation" id="jobLocation">
+                            </div>
+                         </div>
+                         <div class="form-group">
+                            <label for="jobType" class="col-md-12">Job Type</label>
+                            <div class="col-md-12">
+                                <input type="text"  class="form-control form-control-line" name="jobType" id="jobType">
+                            </div>
+                         </div>
+                         <div class="form-group">
+                            <label for="jobCategory" class="col-md-12">Job Category</label>
+                            <div class="col-md-12">
+                                <input type="text"  class="form-control form-control-line" name="jobCategory" id="jobCategory">
+                            </div>
+                         </div>
+                         <div class="form-group">
+                            <label for="salaryRange" class="col-md-12">Salary Range</label>
+                            <div class="col-md-12">
+                                <input type="text"  class="form-control form-control-line" name="salaryRange" id="salaryRange">
+                            </div>
+                         </div>
+                         
+                         <div class="form-group">
+                            <label for="companyName" class="col-md-12">Company Name</label>
+                            <div class="col-md-12">
+                                <input type="text"  class="form-control form-control-line" name="companyName" id="companyName">
+                            </div>
+                         </div>
+                         <div class="form-group">
+                            <label for="applicationDeadline" class="col-md-12">Application Deadline</label>
+                            <div class="col-md-12">
+                                <input type="text"  class="form-control form-control-line" name="applicationDeadline" id="applicationDeadline">
                             </div>
                          </div>
                          <div class="form-group">
                             <div class="col-sm-12">
-                                <button class="btn btn-success">Add Bus</button>
+                                <button class="btn btn-success">Add Filter</button>
                             </div>
                         </div>
                     </form>

@@ -25,16 +25,21 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Created by Dnyaneshwar Somwanshi.
  */
 @Controller
 public class DashboardController {
-
+	Long jobId;
     @Autowired
     private UserService userService;
     @Autowired
@@ -57,22 +62,113 @@ public class DashboardController {
 
 
     @GetMapping(value = "/jobs")
-    public ModelAndView jobListed() {
+    public ModelAndView jobListed(@Valid @ModelAttribute("filterFormData") JobsFormCommand filterFormCommand, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("jobs");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
         final Logger logger = LogManager.getLogger(DashboardController.class);
         logger.info("getting info log!");
        ArrayList<Jobs> alljobs= jobsReservationService.getAllJobs();
-        modelAndView.addObject("jobFormData", new JobsFormCommand());
+       List<Jobs> filteredJobs = alljobs.stream()
+   		    .filter(job -> job.getExperience()>3)
+   		   // .filter(job -> job.getJobCategory().equalsIgnoreCase("software"))
+   		    .collect(Collectors.toList());
+      
+        modelAndView.addObject("filterFormData", new JobsFormCommand());
         modelAndView.addObject("userName", userDto.getFullName());
-        modelAndView.addObject("alljobs",alljobs);
+        modelAndView.addObject("alljobs",filteredJobs);
         return modelAndView;
     }
     
+    public List<String> getNonNullFields(JobsFormCommand jobsFormCommand) {
+        List<String> fields = new ArrayList<>();
+
+        Field[] declaredFields = JobsFormCommand.class.getDeclaredFields();
+        for (Field field : declaredFields) {
+            field.setAccessible(true);
+            try {
+                Object value = field.get(jobsFormCommand);
+                if (value != null && !value.toString().isEmpty()) {
+                    fields.add(field.getName());
+                }
+            } catch (IllegalAccessException e) {
+                // handle exception
+            }
+        }
+
+        return fields;
+    }
+
+
     @PostMapping(value = "/jobs")
-    public ModelAndView addNewJob(@Valid @ModelAttribute("jobsFormData") JobsFormCommand jobsFormCommand, BindingResult bindingResult) {
+    public ModelAndView jobsFiltered(@Valid @ModelAttribute("jobsFormData") JobsFormCommand jobsFormCommand, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("jobs");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto userDto = userService.findUserByEmail(auth.getName());
+        final Logger logger = LogManager.getLogger(DashboardController.class);
+        logger.info("getting info log!");
+
+        ArrayList<Jobs> alljobs= jobsReservationService.getAllJobs();
+     // Get all fields of JobsFormCommand class
+        Field[] fields = JobsFormCommand.class.getDeclaredFields();
+
+        // Create a list to hold the names of non-null fields
+        List<String> nonNullFields = new ArrayList<>();
+
+        // Loop through all fields and check if they are non-null in the JobsFormCommand instance
+        for (Field field : fields) {
+            field.setAccessible(true);
+            try {
+                Object value = field.get(jobsFormCommand);
+                if (value != null && !value.toString().isEmpty()) {
+                    nonNullFields.add(field.getName());
+                }
+            } catch (IllegalAccessException e) {
+                // Handle exception
+            }
+        }
+
+        // Now use the nonNullFields list to filter jobs
+        List<Jobs> filteredJobs = alljobs.stream()
+                .filter(job -> {
+                    for (String field : nonNullFields) {
+                        try {
+                        	// write logic here to filter jobs based on customized inputs
+                        } catch (IllegalArgumentException | SecurityException  e) {
+                            // Handle exception
+                        }
+                    }
+                    return true;
+                })
+                .collect(Collectors.toList());
+
+
+        modelAndView.addObject("jobFormData", new JobsFormCommand());
+        modelAndView.addObject("userName", userDto.getFullName());
+        modelAndView.addObject("alljobs", filteredJobs);
+        return modelAndView;
+    }
+
+
+
+
+    
+    @GetMapping(value = "/addjobs")
+    public ModelAndView addNewJob() {
+        ModelAndView modelAndView = new ModelAndView("addjobs");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto userDto = userService.findUserByEmail(auth.getName());
+        final Logger logger = LogManager.getLogger(DashboardController.class);
+        logger.info("getting info log!");
+        modelAndView.addObject("jobFormData", new JobsFormCommand());
+        modelAndView.addObject("userName", userDto.getFullName());
+        return modelAndView;
+    }
+    
+    @PostMapping(value = "/addjobs")
+    public ModelAndView addNewJob(@Valid @ModelAttribute("jobsFormData") JobsFormCommand jobsFormCommand, BindingResult bindingResult) {
+    	
+    	ModelAndView modelAndView = new ModelAndView("addjobs");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
         
@@ -86,16 +182,26 @@ public class DashboardController {
                         .setJobcode(cod)
                         .setExperience(jobsFormCommand.getExperience())
                         .setJobTitle(jobsFormCommand.getJobTitle())
-                        .setDescription(jobsFormCommand.getDescription());
+                        .setDescription(jobsFormCommand.getDescription())
+                        .setJobLocation(jobsFormCommand.getJobLocation())
+                        .setJobCategory(jobsFormCommand.getJobCategory())
+                        .setJobType(jobsFormCommand.getJobType())
+                        .setCompanyName(jobsFormCommand.getCompanyName())
+                        .setSalaryRange(jobsFormCommand.getSalaryRange())
+                        .setApplicationDeadline(jobsFormCommand.getApplicationDeadline())
+                        ;
+                
                 
              ArrayList<Jobs> jobList =  jobsReservationService.updateJobs(jobsDto);
-             modelAndView.addObject("alljobs",jobList);
-                modelAndView.addObject("jobsFormData", new JobsFormCommand());
+            Jobs job= jobsRepository.findByJobcode(cod);
+             jobId = job.getId();
+            this.jobDetails(jobId);
+             
             } catch (Exception ex) {
                 bindingResult.rejectValue("jobcode", "error.jobsFormCommand", ex.getMessage());
             }
         }
-        return modelAndView;
+        return this.jobDetails(jobId);
     }
     @GetMapping(value = "/jobDetails/{jobId}")
     public ModelAndView jobDetails(@PathVariable Long jobId) {

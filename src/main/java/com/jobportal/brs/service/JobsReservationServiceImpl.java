@@ -111,12 +111,22 @@ public class JobsReservationServiceImpl implements JobsReservationService {
 		 Optional<Jobs> job = Optional.ofNullable(jobsRepository.findByJobcode(jobsDto.getJobcode()));
 	
 		  if (!job.isPresent()) {
-              Jobs busModel = new Jobs()
+              Jobs jobModel = new Jobs()
                       .setJobcode(jobsDto.getJobcode())
                       .setJobTitle(jobsDto.getJobTitle())
                       .setExperience(jobsDto.getExperience())
-                      .setDescription(jobsDto.getDescription());
-              jobsRepository.save(busModel);
+                      .setDescription(jobsDto.getDescription())
+                      .setJobType(jobsDto.getJobType())
+                      .setSalaryRange(jobsDto.getSalaryRange())
+                      .setJobLocation(jobsDto.getJobLocation())
+                      
+                      .setJobCategory(jobsDto.getJobCategory())
+                      .setCompanyName(jobsDto.getCompanyName())
+                      .setApplicationDeadline(jobsDto.getApplicationDeadline())
+                      ;
+              
+              
+              jobsRepository.save(jobModel);
 		
 		
 	}

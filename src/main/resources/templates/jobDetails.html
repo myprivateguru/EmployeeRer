@@ -18,7 +18,8 @@
         <div class="col-md-5 col-8 align-self-center">
             <h3 class="text-themecolor m-b-0 m-t-0">JobDetails</h3>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="home">Home</a></li>
+				<li class="breadcrumb-item"><a href="/home">Home</a></li>
+                <li class="breadcrumb-item"><a href="/jobs">Jobs</a></li>
                 <li class="breadcrumb-item active">JobDetails</li>
             </ol>
         </div>
@@ -48,9 +49,46 @@
             <th>Job Title:</th>
             <td th:text="${job.jobTitle}"></td>
         </tr>
+         <tr>
+            <th>Job Type:</th>
+            <td th:text="${job.jobType}"></td>
+        </tr>
+         <tr>
+            <th>Job Category:</th>
+            <td th:text="${job.jobCategory}"></td>
+        </tr>
+         <tr>
+            <th>Job Location:</th>
+            <td th:text="${job.jobLocation}"></td>
+        </tr>
+         <tr>
+            <th>Salary Range:</th>
+            <td th:text="${job.salaryRange}"></td>
+        </tr>
+         <tr>
+            <th>Company Name:</th>
+            <td th:text="${job.companyName}"></td>
+        </tr>
+         <tr>
+            <th>Last Date:</th>
+            <td th:text="${job.applicationDeadline}"></td>
+        </tr>
     </table>
 				
 			</div>
+			 <div class="row text-right">
+    <div class="col-sm-1" >
+        <button class="btn btn-success">Apply</button>
+    </div>
+    <div class="col-sm-1">
+        <button class="btn btn-success">Share</button>
+    </div>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Report issue
+</button>
+
+</div>
+
 			
 		</div>
 		</div>

@@ -35,6 +35,20 @@ public class JobsDto {
     
     private String jobTitle;
     
+    private String jobLocation;
+    
+    private String jobType;
+    //full-time, part-time, freelance, etc.
+    
+    private String jobCategory;
+    //e.g., IT, finance, marketing, etc.
+    
+    private String salaryRange;
+    
+    private String companyName;
+    
+    private String applicationDeadline;
+    
     @OneToMany(mappedBy = "agency", cascade = CascadeType.ALL)
     private Set<Jobs> buses;
 
