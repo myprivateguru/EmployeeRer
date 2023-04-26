@@ -13,8 +13,9 @@ public interface UserService {
      *
      * @param userDto
      * @return
+     * @throws Exception 
      */
-    UserDto signup(UserDto userDto);
+    UserDto signup(UserDto userDto) throws Exception;
 
     /**
      * Search an existing user

@@ -107,21 +107,6 @@ public class AdminController {
                 .setUsername(adminSignupRequest.getUsername().toLowerCase())
                 .setRef(adminSignupRequest.getRef())
                 .setAdmin(true);
-        User referrer = userRepository.findByUsername(userDto.getRef());
-        if (referrer != null) {
-            Referral referral = new Referral();
-            referral.setReferralCode(adminSignupRequest.getRef().toLowerCase());
-            referral.setEmail(userDto.getEmail());
-            referral.setStatus("pending");
-            referral.setReferrer(referrer);
-            referral.setReferredAt(LocalDateTime.now());
-            referralRepository.save(referral);
-            referrer.getReferrals().add(referral);
-            referrer.setCoins(referrer.getCoins() + COINS_PER_REFERRAL);
-            userRepository.save(referrer);
-
-            userDto.setCoins(COINS_PER_REFERRAL);
-        }
         
        
         return userDto;
