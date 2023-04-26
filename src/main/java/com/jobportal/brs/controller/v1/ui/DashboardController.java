@@ -53,7 +53,7 @@ public class DashboardController {
     @Autowired
     private CoinTransactionsService coinTransactionsService;
     
-    @Value("${spring.datasource.url}")
+    @Value("${myProductionWeb}")
     String myProductionWeb;
 
     @GetMapping(value = "/dashboard")
@@ -229,7 +229,7 @@ public class DashboardController {
         ModelAndView modelAndView = new ModelAndView("share");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
-        String referralLink=myProductionWeb+"signup?ref="+userDto.getUsername();
+        String referralLink=myProductionWeb+"/signup?ref="+userDto.getUsername();
         User user = userService.FindByusername(userDto.getUsername());
         List<Referral> myReferrals = user.getReferrals();
         modelAndView.addObject("referralLink",referralLink);

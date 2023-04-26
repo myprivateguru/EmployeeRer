@@ -28,9 +28,10 @@ public class UserController {
      *
      * @param userSignupRequest
      * @return
+     * @throws Exception 
      */
     @PostMapping("/signup")
-    public Response signup(@RequestBody @Valid UserSignupRequest userSignupRequest) {
+    public Response signup(@RequestBody @Valid UserSignupRequest userSignupRequest) throws Exception {
         return Response.ok().setPayload(registerUser(userSignupRequest, false));
     }
 
@@ -39,8 +40,9 @@ public class UserController {
      *
      * @param userSignupRequest
      * @return
+     * @throws Exception 
      */
-    private UserDto registerUser(UserSignupRequest userSignupRequest, boolean isAdmin) {
+    private UserDto registerUser(UserSignupRequest userSignupRequest, boolean isAdmin) throws Exception {
         UserDto userDto = new UserDto()
                 .setEmail(userSignupRequest.getEmail())
                 .setPassword(userSignupRequest.getPassword())

@@ -1,131 +1,118 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/layout">
-
 <head>
+	<title>Share Page</title>
 </head>
-
 <body>
-
 <!-- ============================================================== -->
 <!-- Container fluid  -->
 <!-- ============================================================== -->
 <div class="container-fluid" layout:fragment="content">
-    <!-- ============================================================== -->
-    <!-- Bread crumb and right sidebar toggle -->
-    <!-- ============================================================== -->
-    <div class="row page-titles">
-        <div class="col-md-5 col-8 align-self-center">
-            <h3 class="text-themecolor m-b-0 m-t-0">Share</h3>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="home">Home</a></li>
-                <li class="breadcrumb-item active">Share</li>
-            </ol>
-        </div>
-    </div>
-    <div class="row">
+	<!-- ============================================================== -->
+	<!-- Bread crumb and right sidebar toggle -->
+	<!-- ============================================================== -->
+	<div class="row page-titles">
+		<div class="col-md-5 col-8 align-self-center">
+			<h3 class="text-themecolor m-b-0 m-t-0">Share</h3>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="home">Home</a></li>
+				<li class="breadcrumb-item active">Share</li>
+			</ol>
+		</div>
+	</div>
+	<div class="row">
 		<div class="col-lg-8 col-md-7">
 			<div class="card">
-			<div class="card-block">
-				<h2> Share is care </h2>
-				<h4>You have shares us with {} people. </h4>
-				
-
-<a href="${referralLink}"></a>
-				<h4 th:text=${referralLink}></h4>
-				<button class="btn btn-success" th:href="@{${referralLink}}">Share</button>
-				
+				<div class="card-block">
+					<h2> Share is care </h2>
+					<a th:href="@{${referralLink}}" target="_blank" th:text="${referralLink}"></a>
+					<button class="btn btn-success" th:href="@{${referralLink}}" target="_blank">Share</button>
+				</div>
 			</div>
-			
 		</div>
-		</div>
+
 		<div class="col-lg-8 col-md-7">
+			<div class="card">
+				<div class="card-block">
+
+				<h1>My Referrals</h1>
+				<table>
+				  <thead>
+				    <tr>
+				      <th>Referral Code</th>
+				      <th>Email</th>
+				      <th>Status</th>
+				      <th>Referred At</th>
+				      <th>Action</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr th:each="referral : ${myReferrals}">
+				      <td th:text="${referral.referralCode}"></td>
+				      <td th:text="${referral.email}"></td>
+				      <td th:text="${referral.status}"></td>
+				      <td th:text="${referral.referredAt}"></td>
+				      <td>
+				        <div th:if="${referral.status == 'pending'}">
+				          <form method="POST" th:action="@{/resend-code}">
+				            <input type="hidden" name="referralId" th:value="${referral.id}">
+				            <button type="submit">Resend Code</button>
+				          </form>
+				        </div>
+				      </td>
+				    </tr>
+				  </tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+			<div class="col-lg-4 col-md-5">
 			<div class="card">
 				<div class="card-block">
 					<div class="row">
-  <div class="col-lg-3 col-md-6 mb-4">
-    <div class="card text-center">
-      <div class="card-body">
-        <h5 class="card-title">Total Referrals</h5>
-        <h4 class="card-text"th:text="@{${myReferrals.size()}}"></h4>
-      </div>
-    </div>
-  </div>
-  <div class="col-lg-3 col-md-6 mb-4">
-    <div class="card text-center">
-        <div class="card-body">
-            <h5 class="card-title">Successful Referrals</h5>
-            <h4 class="card-text" th:text="${myReferrals.?[status == 'active'].size()}"></h4>
-        </div>
-    </div>
-</div>
-
-  <div class="col-lg-3 col-md-6 mb-4">
-    <div class="card text-center">
-        <div class="card-body">
-            <h5 class="card-title">Pending Referrals</h5>
-            <h4 class="card-text" th:text="${myReferrals.?[status == 'pending'].size()}"></h4>
-        </div>
-    </div>
-</div>
-
-  <div class="col-lg-3 col-md-6 mb-4">
-    <div class="card text-center">
-      <div class="card-body">
-        <h5 class="card-title">Referral Conversion Rate</h5>
-        <h4 class="card-text" th:text="${myReferrals.?[status == 'active'].size()/myReferrals.?[status == 'pending'].size() * 100}"></h4>
-      </div>
-    </div>
-  </div>
-</div>
-
-				</div>
-			</div></div>
-		<div class="col-lg-8 col-md-7">
-			<div class="card">
-				<div class="card-block">
-					
-					<h1>My Referrals</h1>
-        <table>
-  <thead>
-    <tr>
-      <th>Referral Code</th>
-      <th>Email</th>
-      <th>Status</th>
-      <th>Referred At</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr th:each="referral : ${myReferrals}">
-      <td th:text="${referral.referralCode}"></td>
-      <td th:text="${referral.email}"></td>
-      <td th:text="${referral.status}"></td>
-      <td th:text="${referral.referredAt}"></td>
-      <td>
-        <div th:if="${referral.status == 'pending'}">
-          <form method="POST" th:action="@{/resend-code}">
-            <input type="hidden" name="referralId" th:value="${referral.id}">
-            <button type="submit">Resend Code</button>
-          </form>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
+						<div class="col-lg-12">
+							<div class="card">
+								<div class="card-block">
+									<h2>Total Referrals</h2>
+									<h3 th:text="@{${myReferrals.size()}}">Balance</h3>	
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="card">
+								<div class="card-block">
+									<h2>Successful Referrals</h2>
+									<h3 th:text="${myReferrals.?[status == 'active'].size()}">Balance</h3>	
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="card">
+								<div class="card-block">
+									<h2>Pending Referrals</h2>
+									<h3 th:text="${myReferrals.?[status == 'pending'].size()}">Balance</h3>	
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="card">
+								<div class="card-block">
+									<h2>Referral Conversion Rate</h2>
+									<h3 th:text="${myReferrals.?[status == 'active'].size()/myReferrals.?[status == 'pending'].size() * 100}">Balance</h3>	
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		
-		
 	
 </div>
 </div>
-
 <!-- ============================================================== -->
 <!-- End Container fluid  -->
 <!-- ============================================================== -->
 </body>
-
 </html>
