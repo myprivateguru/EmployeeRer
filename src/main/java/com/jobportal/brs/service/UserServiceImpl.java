@@ -6,9 +6,14 @@ import com.jobportal.brs.dto.model.user.UserDto;
 import com.jobportal.brs.exception.BRSException;
 import com.jobportal.brs.exception.EntityType;
 import com.jobportal.brs.exception.ExceptionType;
+import com.jobportal.brs.model.user.CoinTransaction;
+import com.jobportal.brs.model.user.Referral;
 import com.jobportal.brs.model.user.Role;
+import com.jobportal.brs.model.user.TransactionType;
 import com.jobportal.brs.model.user.User;
 import com.jobportal.brs.model.user.UserRoles;
+import com.jobportal.brs.repository.user.CoinTransactionRepository;
+import com.jobportal.brs.repository.user.ReferralRepository;
 import com.jobportal.brs.repository.user.RoleRepository;
 import com.jobportal.brs.repository.user.UserRepository;
 
@@ -23,8 +28,11 @@ import static com.jobportal.brs.exception.ExceptionType.DUPLICATE_ENTITY;
 import static com.jobportal.brs.exception.ExceptionType.ENTITY_NOT_FOUND;
 
 import java.lang.reflect.Field;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Optional;
 
@@ -33,7 +41,9 @@ import java.util.Optional;
  */
 @Component
 public class UserServiceImpl implements UserService {
-    @Autowired
+    private static final Integer COINS_PER_REFERRAL = 10;
+
+	@Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
@@ -47,9 +57,14 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    CoinTransactionRepository coinTransactionRepository;
 
+    @Autowired
+    private ReferralRepository referralRepository;
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public UserDto signup(UserDto userDto) {
+    public UserDto signup(UserDto userDto) throws Exception {
         Role userRole;
         User user = userRepository.findByEmail(userDto.getEmail());
         if (user == null) {
@@ -58,6 +73,7 @@ public class UserServiceImpl implements UserService {
             } else {
                 userRole = roleRepository.findByRole(UserRoles.PASSENGER);
             }
+            this.setReferralEntity(userDto);
             user = new User()
                     .setEmail(userDto.getEmail())
                     .setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()))
@@ -67,10 +83,53 @@ public class UserServiceImpl implements UserService {
                     .setCoins(userDto.getCoins())
                     .setUsername(userDto.getUsername())
                     .setMobileNumber(userDto.getMobileNumber());
-            return UserMapper.toUserDto(userRepository.save(user));
+            userRepository.save(user);
+
+            if (userDto.getCoins() > 0) {
+                CoinTransaction coinTransaction = new CoinTransaction()
+                        .setUser(user)
+                        .setAmount(userDto.getCoins())
+                        .setTransactionType(TransactionType.REFERRAL_BONUS)
+                        .setCreatedDate(Date.from(Instant.now()));
+                coinTransactionRepository.save(coinTransaction);
+
+                user.setCoins(user.getCoins() + userDto.getCoins());
+                userRepository.save(user);
+            }
+            return UserMapper.toUserDto(user);
         }
         throw exception(USER, DUPLICATE_ENTITY, userDto.getEmail());
     }
+
+    public void setReferralEntity(UserDto userDto) throws Exception {
+        User referrer = userRepository.findByUsername(userDto.getRef());
+        if (referrer != null) {
+            Referral referral = new Referral();
+            referral .setReferralCode(userDto.getRef().toLowerCase());
+            referral.setEmail(userDto.getEmail());
+            referral.setStatus("pending");
+            referral.setReferrer(referrer);
+            referral.setReferredAt(LocalDateTime.now());
+            referralRepository.save(referral);
+
+            referrer.getReferrals().add(referral);
+            referrer.setCoins(referrer.getCoins() + COINS_PER_REFERRAL);
+            userRepository.save(referrer);
+
+            userDto.setCoins(COINS_PER_REFERRAL);
+
+            CoinTransaction coinTransaction = new CoinTransaction()
+                    .setUser(referrer)
+                    .setAmount(COINS_PER_REFERRAL)
+                    .setTransactionType(TransactionType.REFERRAL_BONUS)
+                    .setCreatedDate(Date.from(Instant.now()));
+            coinTransactionRepository.save(coinTransaction);
+
+            referrer.setCoins(referrer.getCoins() + COINS_PER_REFERRAL);
+            userRepository.save(referrer);
+        }
+    }
+
 
     /**
      * Search an existing user

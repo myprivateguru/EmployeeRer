@@ -4,10 +4,12 @@ import com.jobportal.brs.controller.v1.command.*;
 import com.jobportal.brs.dto.model.user.JobsDto;
 import com.jobportal.brs.dto.model.user.ProfileCompletionDto;
 import com.jobportal.brs.dto.model.user.UserDto;
+import com.jobportal.brs.model.user.CoinTransaction;
 import com.jobportal.brs.model.user.Jobs;
 import com.jobportal.brs.model.user.Referral;
 import com.jobportal.brs.model.user.User;
 import com.jobportal.brs.repository.user.JobsRepository;
+import com.jobportal.brs.service.CoinTransactionsService;
 import com.jobportal.brs.service.JobsReservationService;
 import com.jobportal.brs.service.UserService;
 
@@ -48,6 +50,8 @@ public class DashboardController {
     private JobsRepository jobsRepository;
     @Autowired
     private JobsReservationService jobsReservationService;
+    @Autowired
+    private CoinTransactionsService coinTransactionsService;
     
     @Value("${spring.datasource.url}")
     String myProductionWeb;
@@ -239,7 +243,10 @@ public class DashboardController {
         ModelAndView modelAndView = new ModelAndView("wallet");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
-        
+        User user = userService.FindByusername(userDto.getUsername());
+        List<CoinTransaction> transactions = coinTransactionsService.findByUser(user);
+        modelAndView.addObject("transactions", transactions);
+        modelAndView.addObject("user", user);
         modelAndView.addObject("userName", userDto.getFullName());
         return modelAndView;
     }
