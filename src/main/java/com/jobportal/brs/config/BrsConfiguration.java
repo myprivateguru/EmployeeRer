@@ -72,7 +72,7 @@ public class BrsConfiguration {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("Bus Reservation System - REST APIs")
                 .description("Spring Boot starter kit application.").termsOfServiceUrl("")
-                .contact(new Contact("Dnyaneshwar Somwanshi", "https://medium.com/the-resonant-web", "khandelwal.arpit@outlook.com"))
+                .contact(new Contact("Dnyaneshwar Somwanshi", "https://brainqy.in", "dvsomwanshi@gmail.com"))
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
                 .version("0.0.1")

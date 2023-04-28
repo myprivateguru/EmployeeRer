@@ -2486,6 +2486,29 @@ Breadcrumb
 
 .breadcrumb {
   margin-bottom: 0px; }
+  
+  
+.pencil-container {
+  position: relative;
+  transform: rotate(0deg);
+   bottom: -100px;
+}
+
+
+
+.pencil-eraser {
+  width: 50px;
+  height: 50px;
+  background-color: rgb(0, 128, 255);
+  border-radius: 50% 50% 0 0;
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  margin-left: -30px;
+  transform: rotate(180deg);
+}
+
+
 
 /*============================================================== 
  Ui-bootstrap

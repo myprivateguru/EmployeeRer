@@ -32,7 +32,7 @@
     <!-- Row -->
     <div class="row">
         <!-- Column -->
-        <div class="col-lg-8 col-md-7">
+        <div class="col-lg-6 col-md-5">
             <div class="card">
                 <div class="card-block">
                     <div class="row">
@@ -60,7 +60,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-5">
+        <div class="col-lg-3 col-md-3">
             <div class="card">
                 <div class="card-block">
                     <h3 class="card-title">Our Visitors </h3>
@@ -84,6 +84,40 @@
                     </ul>
                 </div>
             </div>
+        </div>
+        
+                <div class="col-lg-3 col-md-3">
+           <div class="container">
+  <div class="row">
+    <div class="col-md-4 offset-md-4">
+    <div class="pencils-row">
+ <div th:each="date : ${streak.consequentDays}" class="pencil-container">
+  <div class="pencil">
+    <div class="pencil-day-of-week">
+       [[${#temporals.format(date, 'EEE')}]]
+    </div>
+    <div class="pencil-eraser"></div>
+  </div>
+</div>
+
+</div>
+
+
+<style>
+  .pencils-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .pencil-container {
+    margin: 0 -50px;
+  }
+</style>
+    </div>
+  </div>
+</div>
+
         </div>
     </div>
     <!-- Row -->

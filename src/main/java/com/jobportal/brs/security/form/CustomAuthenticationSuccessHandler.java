@@ -33,7 +33,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         for (GrantedAuthority auth : authentication.getAuthorities()) {
             if ("ADMIN".equals(auth.getAuthority())) {
             	userService.SetLoginHistory();
-            	DailyStreakDto streak = dailyStreakService.getDailyStreak();
+            	//DailyStreakDto streak = dailyStreakService.getDailyStreak();
                 response.sendRedirect("/dashboard");
             }
         }
