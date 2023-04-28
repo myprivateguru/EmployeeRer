@@ -7,6 +7,7 @@ import com.jobportal.brs.exception.BRSException;
 import com.jobportal.brs.exception.EntityType;
 import com.jobportal.brs.exception.ExceptionType;
 import com.jobportal.brs.model.user.CoinTransaction;
+import com.jobportal.brs.model.user.LoginHistory;
 import com.jobportal.brs.model.user.Referral;
 import com.jobportal.brs.model.user.Role;
 import com.jobportal.brs.model.user.TransactionType;
@@ -19,6 +20,8 @@ import com.jobportal.brs.repository.user.UserRepository;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -226,6 +229,29 @@ public class UserServiceImpl implements UserService {
 	public User FindByusername(String username) {
 		// TODO Auto-generated method stub
 		return userRepository.findByUsername(username);
+	}
+
+	@Override
+	public void SetLoginHistory() {
+		// TODO Auto-generated method stub
+		 
+
+		 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		 String currentUserEmail = authentication.getName();
+		 User currentUser = userRepository.findByEmail(currentUserEmail);
+		    // create new login history
+		 if (currentUser != null) {
+			 LoginHistory loginHistory = new LoginHistory();
+			    loginHistory.setLoginTime(LocalDateTime.now().minusDays(10));
+			    loginHistory.setUserHistory(currentUser);
+			    //currentUser.setLastLogin(Instant.now());
+			    currentUser.addLoginHistory(loginHistory);
+			    userRepository.save(currentUser);
+		 }
+		    
+		   
+
+		
 	}
 
 

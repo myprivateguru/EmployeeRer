@@ -65,7 +65,10 @@
 			    <div class="container">
         <div class="container">
         <h1>Transactions</h1>
-        <table>
+        <div th:if="${#lists.isEmpty(transactions)}">
+                <h3>No Transactions found.</h3>
+          </div>
+        <table th:if="${not #lists.isEmpty(transactions)}">
         <thead>
             <tr>
                 <th>Type</th>

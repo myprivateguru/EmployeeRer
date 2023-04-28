@@ -44,4 +44,6 @@ public interface UserService {
     ProfileCompletionDto getProfileCompletion(UserDto userDto);
 
 	User FindByusername(String username);
+	
+	void SetLoginHistory();
 }

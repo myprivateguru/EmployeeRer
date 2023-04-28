@@ -7,6 +7,8 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -49,8 +51,16 @@ public class User {
     
     private String username;
     
+    @OneToMany(mappedBy = "userHistory", cascade = CascadeType.ALL)
+    private List<LoginHistory> loginHistoryList = new ArrayList<>();
+    
+    public void addLoginHistory(LoginHistory loginHistory) {
+        loginHistoryList.add(loginHistory);
+        loginHistory.setUserHistory(this);
+    }
+    
 
-    @OneToMany(mappedBy = "referrer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "referrer", cascade = CascadeType.ALL)
     private List<Referral> referrals = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
