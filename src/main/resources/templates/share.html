@@ -37,7 +37,10 @@
 				<div class="card-block">
 
 				<h1>My Referrals</h1>
-				<table>
+				<div th:if="${#lists.isEmpty(myReferrals)}">
+                      <h3>No referrals found.</h3>
+                 </div>
+				<table th:if="${not #lists.isEmpty(myReferrals)}">
 				  <thead>
 				    <tr>
 				      <th>Referral Code</th>
@@ -68,10 +71,10 @@
 			</div>
 		</div>
 	</div>
-			<div class="col-lg-4 col-md-5">
+			<div class="col-lg-4 col-md-5" th:if="${not #lists.isEmpty(myReferrals)}">
 			<div class="card">
 				<div class="card-block">
-					<div class="row">
+					<div class="row" >
 						<div class="col-lg-12">
 							<div class="card">
 								<div class="card-block">
