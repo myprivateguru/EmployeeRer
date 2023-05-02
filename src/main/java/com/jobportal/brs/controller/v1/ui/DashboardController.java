@@ -1,6 +1,7 @@
 package com.jobportal.brs.controller.v1.ui;
 
 import com.jobportal.brs.controller.v1.command.*;
+import com.jobportal.brs.dto.model.user.DailyStreakDto;
 import com.jobportal.brs.dto.model.user.JobsDto;
 import com.jobportal.brs.dto.model.user.ProfileCompletionDto;
 import com.jobportal.brs.dto.model.user.UserDto;
@@ -10,6 +11,7 @@ import com.jobportal.brs.model.user.Referral;
 import com.jobportal.brs.model.user.User;
 import com.jobportal.brs.repository.user.JobsRepository;
 import com.jobportal.brs.service.CoinTransactionsService;
+import com.jobportal.brs.service.DailyStreakService;
 import com.jobportal.brs.service.JobsReservationService;
 import com.jobportal.brs.service.UserService;
 
@@ -52,6 +54,8 @@ public class DashboardController {
     private JobsReservationService jobsReservationService;
     @Autowired
     private CoinTransactionsService coinTransactionsService;
+    @Autowired
+	private DailyStreakService dailyStreakService;
     
     @Value("${myProductionWeb}")
     String myProductionWeb;
@@ -61,7 +65,9 @@ public class DashboardController {
         ModelAndView modelAndView = new ModelAndView("dashboard");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = userService.findUserByEmail(auth.getName());
+        DailyStreakDto streak = dailyStreakService.getDailyStreak();
         modelAndView.addObject("currentUser", userDto);
+        modelAndView.addObject("streak",streak);
         modelAndView.addObject("userName", userDto.getFullName());
         return modelAndView;
     }

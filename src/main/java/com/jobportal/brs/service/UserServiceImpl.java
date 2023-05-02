@@ -242,7 +242,7 @@ public class UserServiceImpl implements UserService {
 		    // create new login history
 		 if (currentUser != null) {
 			 LoginHistory loginHistory = new LoginHistory();
-			    loginHistory.setLoginTime(LocalDateTime.now().minusDays(10));
+			    loginHistory.setLoginTime(LocalDateTime.now().minusDays(0));
 			    loginHistory.setUserHistory(currentUser);
 			    //currentUser.setLastLogin(Instant.now());
 			    currentUser.addLoginHistory(loginHistory);
