@@ -2487,27 +2487,90 @@ Breadcrumb
 .breadcrumb {
   margin-bottom: 0px; }
   
-  
-.pencil-container {
-  position: relative;
-  transform: rotate(0deg);
-   bottom: -100px;
+  .pencils-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px; /* horizontal spacing */
+    margin-top: 30;
+  }
+.pencil-date{
+	 font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 5px;
+     color: white;
+}
+  .pencil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 90px;
+    border-radius: 50% 50% 0 0;
+    background-color: rgb(128, 128, 192);
+    margin-bottom: 10px; /* vertical spacing */
+  }
+
+  .pencil-day-of-week {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+     color: white;
+  }
+
+  .pencil-eraser {
+    width: 60px;
+    height: 40px;
+    border-radius: 50% 50% 0 0;
+    background-color: rgb(0, 128, 255);
+     margin-bottom: 5px;
+  }
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-
-
-.pencil-eraser {
-  width: 50px;
-  height: 50px;
-  background-color: rgb(0, 128, 255);
-  border-radius: 50% 50% 0 0;
-  position: absolute;
-  bottom: 50px;
-  left: 50%;
-  margin-left: -30px;
-  transform: rotate(180deg);
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  animation-name: zoom;
+  animation-duration: 0.6s;
 }
 
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Zoom Animation */
+@keyframes zoom {
+  from {transform: scale(0)}
+  to {transform: scale(1)}
+}
 
 
 /*============================================================== 
